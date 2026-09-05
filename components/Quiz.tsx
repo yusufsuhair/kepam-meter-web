@@ -64,7 +64,7 @@ export default function Quiz({ answers, score, onAnswer, onReset }: Props) {
                 </button>
               )}
             </div>
-            <h2 ref={focusHeading} tabIndex={-1} className="mb-4 text-2xl font-bold leading-snug sm:mb-6 sm:text-3xl">
+            <h2 ref={focusHeading} tabIndex={-1} className="mb-4 text-2xl font-semibold leading-snug sm:mb-6 sm:text-3xl">
               {QUESTIONS[step].prompt}
             </h2>
             <ul className="grid gap-2.5 sm:gap-3">
@@ -123,7 +123,7 @@ function Results({
         {d.emoji}
       </div>
       <p className="mt-4 text-xs uppercase tracking-widest text-white/60">Official diagnosis</p>
-      <h2 ref={headingRef} tabIndex={-1} className="mt-1 text-3xl font-black sm:text-4xl">
+      <h2 ref={headingRef} tabIndex={-1} className="font-display mt-1 text-3xl sm:text-4xl">
         {d.title}
       </h2>
       <p className="mx-auto mt-4 max-w-md text-white/80">{d.blurb}</p>

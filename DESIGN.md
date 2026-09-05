@@ -19,30 +19,30 @@ colors:
   text-secondary: "#a1a1aa"
 typography:
   display:
-    fontFamily: "Geist, system-ui, sans-serif"
+    fontFamily: "Cherry Bomb One, Fredoka, system-ui, sans-serif"
     fontSize: "clamp(1.875rem, 5vw, 3rem)"
-    fontWeight: 900
+    fontWeight: 400
     lineHeight: 1
-    letterSpacing: "-0.025em"
+    letterSpacing: "normal"
   headline:
-    fontFamily: "Geist, system-ui, sans-serif"
+    fontFamily: "Fredoka, system-ui, sans-serif"
     fontSize: "clamp(1.5rem, 3vw, 1.875rem)"
-    fontWeight: 700
+    fontWeight: 600
     lineHeight: 1.375
   title:
-    fontFamily: "Geist, system-ui, sans-serif"
+    fontFamily: "Cherry Bomb One, Fredoka, system-ui, sans-serif"
     fontSize: "clamp(1.875rem, 4vw, 2.25rem)"
-    fontWeight: 900
+    fontWeight: 400
     lineHeight: 1.1
   body:
-    fontFamily: "Geist, system-ui, sans-serif"
+    fontFamily: "Fredoka, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.5
   label:
-    fontFamily: "Geist, system-ui, sans-serif"
+    fontFamily: "Fredoka, system-ui, sans-serif"
     fontSize: "0.75rem"
-    fontWeight: 400
+    fontWeight: 500
     lineHeight: 1
     letterSpacing: "0.25em"
 rounded:
@@ -115,7 +115,7 @@ The voice is deadpan mock-official Manglish (PRODUCT.md binding commitment), and
 - Glow is the depth system; drop shadows are soft and rare.
 - Glass (backdrop blur) is reserved for exactly two floating surfaces.
 - Pill and rounded-2xl controls, tactile on press, one white primary.
-- Geist only, black (900) for anything that shouts, uppercase 0.25em-tracked labels for anything official.
+- Cherry Bomb One for anything that shouts (wordmark, percent, diagnosis), Fredoka for everything else, uppercase 0.25em-tracked labels for anything official.
 - The score is alive: gauge, mood, mascot lighting, and label all respond to every answer.
 
 ## Colors
@@ -154,22 +154,22 @@ A near-black void with a fuchsia accent, two calm corner glows, and a red takeov
 
 ## Typography
 
-**Display Font:** Geist (with system-ui, sans-serif)
-**Body Font:** Geist (same face)
+**Display Font:** Cherry Bomb One (single weight 400; falls back to Fredoka, then system-ui)
+**Body Font:** Fredoka (300 to 700; system-ui, sans-serif fallback)
 
-**Character:** One family at five weights. Black (900) with tight tracking carries the wordmark and the diagnosis; the question is bold (700) and set snug; everything official is a small uppercase label with wide tracking. Numbers are always tabular so the score does not jitter while it springs.
+**Character:** Pick-me energy played straight. Cherry Bomb One is bubbly, Y2K-cute and never fake-bolded; it carries the wordmark, the percent and the diagnosis so the deadpan copy lands harder against it. Fredoka, rounded and friendly, does the reading and the asking: the question is semibold (600) and set snug; everything official is a small uppercase label with wide tracking. Numbers are always tabular so the score does not jitter while it springs.
 
 ### Hierarchy
-- **Display** (900, 30px phone / 48px from `sm`, line-height 1, -0.025em): the "KepamMeter" wordmark, with "Meter" in Kepam Fuchsia. The OG card sets it at 116px with -5px tracking.
-- **Headline** (700, 24px / 30px from `sm`, line-height 1.375): the question prompt. One per screen, receives focus on step change.
-- **Title** (900, 30px / 36px from `sm`): the diagnosis name on the results screen. Also the gauge percent (30px / 48px inside a 220px-plus container, tabular, tight).
+- **Display** (Cherry Bomb One 400, 48px phone / 60px from `sm` / 72px from `lg` / 96px from `xl`, line-height 1, normal tracking): the "KepamMeter" wordmark, with "Meter" in Kepam Fuchsia, centred on phones and left-aligned from `lg`. The OG card sets it at 116px.
+- **Headline** (Fredoka 600, 24px / 30px from `sm`, line-height 1.375): the question prompt. One per screen, receives focus on step change.
+- **Title** (Cherry Bomb One 400, 30px / 36px from `sm`): the diagnosis name on the results screen. Also the gauge percent (30px / 48px inside a 220px-plus container, tabular).
 - **Body** (400, 16px / 18px from `sm` in options, 16px elsewhere, line-height 1.5): option labels, the diagnosis blurb (max 28rem). Pills use 600.
 - **Label** (400, 12px, uppercase, 0.25em): the gauge state line ("kepam level" / "getting kepam…" / "MAXIMUM KEPAM"). The step counter and "Official diagnosis" use the same size at 0.1em (`tracking-widest`). Music bar meta is 12px sentence-case in `text-secondary`; song title is 14px at 500.
 
 ### Named Rules
 **The Tabular Score Rule.** Any number that animates (the gauge percent, the timestamps) is set `tabular-nums`. Digits must not reflow while moving.
 
-**The Weight Ladder Rule.** 900 shouts (wordmark, diagnosis, percent), 700 asks (the question), 600 acts (pills), 500 names (song title), 400 reads. Do not introduce weights between rungs.
+**The Two Voices Rule.** Cherry Bomb One shouts (wordmark, diagnosis, percent) and is never synthesised bold or used for running text. Fredoka does the rest on a short ladder: 600 asks (the question) and acts (pills), 500 names (song title), 400 reads. Do not introduce weights between rungs.
 
 ## Layout
 
@@ -238,7 +238,7 @@ Range inputs only (seek, volume).
 None. The page has no nav; the wordmark is a static h1.
 
 ### Now Playing Bar (signature)
-Fixed bottom bar, zinc-950 at 90% over 24px blur, 1px white-10% top border, slides up from 100px over 0.5s on load. Contains the **Art tile** (rounded 6px, gradient from Kepam Fuchsia through Calm Violet to Deep Sky, a black-900 "K", accent glow, a white-15% sheen sweeping down while playing, scale 1.1 while playing) and the **Play button** (44px white circle, zinc-950 glyph drawn with CSS, accent glow, hover scale 1.05, tap 0.92, and while playing an expanding fuchsia-30% ring). Title is 14px 500 zinc-100; meta is 12px zinc-400, or Kepam Fuchsia Soft when muted. Desktop adds a 10-bar waveform in fuchsia at 70% and a lucide SkipBack control.
+Fixed bottom bar, zinc-950 at 90% over 24px blur, 1px white-10% top border, slides up from 100px over 0.5s on load. Contains the **Art tile** (rounded 6px, gradient from Kepam Fuchsia through Calm Violet to Deep Sky, a bold (700) "K", accent glow, a white-15% sheen sweeping down while playing, scale 1.1 while playing) and the **Play button** (44px white circle, zinc-950 glyph drawn with CSS, accent glow, hover scale 1.05, tap 0.92, and while playing an expanding fuchsia-30% ring). Title is 14px 500 zinc-100; meta is 12px zinc-400, or Kepam Fuchsia Soft when muted. Desktop adds a 10-bar waveform in fuchsia at 70% and a lucide SkipBack control.
 
 ### KepamMeter Gauge (signature)
 A semicircular speedometer in a 200 by 108 SVG. Track is white at 12%; the sweep is the low-to-high gradient revealed by dash offset; a white needle rotates from -90 to +90 degrees. Below: the tabular percent (30px, 48px in containers 220px and wider) and the uppercase 0.25em state label. Past 80 the label goes Blood Alert and pulses (motion-safe). The value springs (stiffness 80, damping 14, mass 0.8) and jumps instantly under reduced motion. Two instances exist (phone hero overlay, desktop column); the gradient id is unique per instance.
@@ -256,7 +256,7 @@ Reduced motion is honoured through `MotionConfig reducedMotion="user"`. The gaug
 - **Do** switch every mood-bound element together when the score passes 80 (The Takeover Rule).
 - **Do** use Kepam Fuchsia as a marker: wordmark, focus ring, chosen state, live glow. Keep fills at 25% or below.
 - **Do** make every control a pill or a 16px tile with a press scale (0.92 to 0.98) and the global 2px fuchsia focus ring.
-- **Do** set animated numbers in `tabular-nums` and reach for 900 when the copy shouts.
+- **Do** set animated numbers in `tabular-nums` and reach for Cherry Bomb One when the copy shouts.
 - **Do** keep secondary text at white 60 to 70% or zinc-400 and above 4.5:1.
 - **Do** ship every animation behind reduced-motion (MotionConfig, `motion-safe:`, spring jump).
 

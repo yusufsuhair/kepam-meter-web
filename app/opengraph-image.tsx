@@ -8,9 +8,10 @@ export const alt = "KepamMeter: a meter to evaluate your kepamism. How kepam are
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const [black, regular] = await Promise.all([
-  readFile(join(process.cwd(), "app/fonts/Geist-Black.woff")),
-  readFile(join(process.cwd(), "app/fonts/Geist-Regular.woff")),
+const [cherry, fredoka, fredokaSemi] = await Promise.all([
+  readFile(join(process.cwd(), "app/fonts/CherryBombOne-Regular.woff")),
+  readFile(join(process.cwd(), "app/fonts/Fredoka-Regular.woff")),
+  readFile(join(process.cwd(), "app/fonts/Fredoka-SemiBold.woff")),
 ]);
 
 // Gauge geometry mirrors components/KepamMeter.tsx, needle pinned at 100%.
@@ -33,17 +34,17 @@ export default function Image() {
           background:
             "radial-gradient(900px 600px at 15% 10%, #3b0764 0%, transparent 60%), radial-gradient(700px 500px at 90% 95%, #0c4a6e 0%, transparent 60%), #05010f",
           color: "#fff",
-          fontFamily: "Geist",
+          fontFamily: "Fredoka",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 116, fontWeight: 900, letterSpacing: -5, lineHeight: 1 }}>
+          <div style={{ display: "flex", fontFamily: "Cherry Bomb One", fontSize: 116, lineHeight: 1 }}>
             Kepam<span style={{ color: "#e879f9" }}>Meter</span>
           </div>
           <div style={{ marginTop: 22, fontSize: 34, color: "rgba(255,255,255,0.72)" }}>
             A meter to evaluate your kepamism.
           </div>
-          <div style={{ marginTop: 56, fontSize: 40, fontWeight: 900 }}>How kepam are you?</div>
+          <div style={{ marginTop: 56, fontSize: 40, fontWeight: 600 }}>How kepam are you?</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <svg width="400" viewBox="0 0 200 108">
@@ -61,7 +62,7 @@ export default function Image() {
               <circle cx={CX} cy={CY} r="6" fill="#fff" />
             </g>
           </svg>
-          <div style={{ fontSize: 96, fontWeight: 900, lineHeight: 1, marginTop: -6, letterSpacing: -3 }}>100%</div>
+          <div style={{ fontFamily: "Cherry Bomb One", fontSize: 96, lineHeight: 1, marginTop: -6 }}>100%</div>
           <div style={{ marginTop: 14, fontSize: 22, letterSpacing: 6, textTransform: "uppercase", color: "#ff2d2d" }}>
             Maximum kepam
           </div>
@@ -71,8 +72,9 @@ export default function Image() {
     {
       ...size,
       fonts: [
-        { name: "Geist", data: black, weight: 900, style: "normal" },
-        { name: "Geist", data: regular, weight: 400, style: "normal" },
+        { name: "Cherry Bomb One", data: cherry, weight: 400, style: "normal" },
+        { name: "Fredoka", data: fredoka, weight: 400, style: "normal" },
+        { name: "Fredoka", data: fredokaSemi, weight: 600, style: "normal" },
       ],
     },
   );

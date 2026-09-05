@@ -58,7 +58,7 @@ export default function KepamMeter({ score, className = "" }: { score: number; c
         </g>
       </svg>
       <div className="-mt-2 flex flex-col items-center leading-none">
-        <span className="text-3xl font-black tabular-nums tracking-tight @min-[220px]:text-5xl">{Math.round(v)}%</span>
+        <span className="font-display text-3xl tabular-nums @min-[220px]:text-5xl">{Math.round(v)}%</span>
         <span
           className={`mt-1 text-xs uppercase tracking-[0.18em] @min-[220px]:tracking-[0.25em] ${score > 80 ? "text-hot motion-safe:animate-pulse" : "text-white/60"}`}
         >

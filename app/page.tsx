@@ -57,10 +57,10 @@ export default function Home() {
           <div className="contents lg:block">
             {/* Screen 1: wordmark, tagline, one action. */}
             <section
-              className="order-1 flex flex-col gap-3 px-4 pt-8 sm:px-8 lg:min-h-[calc(100svh-var(--bar-h))] lg:justify-center lg:gap-5 lg:py-16"
+              className="order-1 flex flex-col items-center gap-3 px-4 pt-8 text-center sm:px-8 lg:min-h-[calc(100svh-var(--bar-h))] lg:items-start lg:justify-center lg:gap-5 lg:py-16 lg:text-left"
               aria-label="KepamMeter"
             >
-              <h1 className="text-5xl font-black tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl">
+              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl">
                 Kepam<span className="text-accent">Meter</span>
               </h1>
               <p className="max-w-md text-lg text-white/70 sm:text-xl lg:text-2xl">A meter to evaluate your kepamism.</p>

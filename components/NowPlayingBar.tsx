@@ -150,7 +150,7 @@ function Art({ isPlaying, className }: { isPlaying: boolean; className: string }
   return (
     <div className={`glow-accent relative shrink-0 overflow-hidden rounded-md bg-linear-to-br from-accent via-mood-a to-mood-b ${className}`}>
       <span
-        className={`flex h-full w-full items-center justify-center text-lg font-black motion-safe:transition-transform motion-safe:duration-700 ${isPlaying ? "scale-110" : "scale-100"}`}
+        className={`flex h-full w-full items-center justify-center text-lg font-bold motion-safe:transition-transform motion-safe:duration-700 ${isPlaying ? "scale-110" : "scale-100"}`}
       >
         K
       </span>

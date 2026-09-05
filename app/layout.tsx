@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Cherry_Bomb_One, Fredoka } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const fredoka = Fredoka({ variable: "--font-fredoka", subsets: ["latin"] });
+const cherry = Cherry_Bomb_One({ variable: "--font-cherry", weight: "400", subsets: ["latin"] });
 
 // Absolute URL for link-preview images. Set NEXT_PUBLIC_SITE_URL once the custom domain exists;
 // Cloudflare Pages exposes CF_PAGES_URL at build time as the fallback.
@@ -24,7 +25,7 @@ export const viewport: Viewport = { themeColor: "#05010f" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geist.variable} h-full antialiased`}>
+    <html lang="en" className={`${fredoka.variable} ${cherry.variable} h-full antialiased`}>
       <body className="min-h-full">{children}</body>
     </html>
   );
