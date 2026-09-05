@@ -16,12 +16,11 @@ test("bank has 15 questions, 4 options each, max weight 20, both axes present", 
   assert.equal(BANK.filter((q) => q.axis === "gepuk").length, 7);
 });
 
-test("pickQuestions returns 8 unique questions, 4 per axis, in shuffled order", () => {
+test("pickQuestions returns 8 unique questions from the mixed bank", () => {
   const qs = pickQuestions();
   assert.equal(qs.length, SESSION_SIZE);
   assert.equal(new Set(qs.map((q) => q.prompt)).size, SESSION_SIZE);
-  assert.equal(qs.filter((q) => q.axis === "kepam").length, 4);
-  assert.equal(qs.filter((q) => q.axis === "gepuk").length, 4);
+  for (const q of qs) assert.ok(BANK.includes(q));
   // deterministic rng → deterministic pick
   const a = pickQuestions(() => 0.42).map((q) => q.prompt);
   const b = pickQuestions(() => 0.42).map((q) => q.prompt);
@@ -35,8 +34,9 @@ test("scores are 0 with no answers and 100/100 with all max answers", () => {
 });
 
 test("answers only move the axis they belong to", () => {
-  const qs = pickQuestions();
+  const qs = pickQuestions(() => 0.3);
   const i = qs.findIndex((q) => q.axis === "gepuk");
+  assert.ok(i >= 0, "seeded pick should include a gepuk question");
   const answers = qs.map((_, k) => (k === i ? 3 : null));
   const s = scoreFor(qs, answers);
   assert.equal(s.kepam, 0);

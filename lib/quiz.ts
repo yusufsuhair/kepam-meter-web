@@ -8,9 +8,9 @@ export const SKIP = -1;
 export type Answer = number | null;
 
 export const SESSION_SIZE = 8;
-const PER_AXIS = SESSION_SIZE / 2;
 
 // Kepam = cringe, attention-seeking netizen energy. Gepuk = pile-on, mob, "korang serang" energy.
+// The axis tag is internal: it only flavours the diagnosis and the mascot shake.
 // Every question's heaviest option is 20.
 export const BANK: Question[] = [
   {
@@ -174,10 +174,9 @@ function shuffle<T>(items: T[], rng: () => number): T[] {
   return a;
 }
 
-/** Pick a session: PER_AXIS random questions from each axis, then shuffle the order. */
+/** Pick a session: SESSION_SIZE random questions from the whole bank, kepam and gepuk mixed. */
 export function pickQuestions(rng: () => number = Math.random): Question[] {
-  const take = (axis: Axis) => shuffle(BANK.filter((q) => q.axis === axis), rng).slice(0, PER_AXIS);
-  return shuffle([...take("kepam"), ...take("gepuk")], rng);
+  return shuffle(BANK, rng).slice(0, SESSION_SIZE);
 }
 
 /** answers[i] is the chosen option index for questions[i], null if unanswered, SKIP if skipped. */

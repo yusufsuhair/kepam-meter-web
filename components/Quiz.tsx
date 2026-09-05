@@ -12,11 +12,6 @@ type Props = {
   onReset: () => void;
 };
 
-const AXIS_CHIP = {
-  kepam: "border-accent/40 bg-accent/15 text-accent-soft",
-  gepuk: "border-orange-400/40 bg-orange-500/15 text-orange-200",
-};
-
 const glass = "rounded-3xl border border-white/15 bg-white/10 shadow-2xl shadow-black/30 backdrop-blur-xl";
 const primary = "rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:bg-white/90 active:scale-95";
 
@@ -57,9 +52,6 @@ export default function Quiz({ questions, answers, scores, onAnswer, onReset }: 
             <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-widest text-white/60 sm:mb-4">
               <span aria-live="polite">
                 Question {step + 1} / {questions.length}
-              </span>
-              <span className={`rounded-full border px-2 py-0.5 text-[10px] ${AXIS_CHIP[q.axis]}`} title={`Counts towards your ${q.axis} score`}>
-                {q.axis}
               </span>
               <span className="-my-2 ml-auto flex">
                 {step > 0 && (
