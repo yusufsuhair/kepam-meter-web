@@ -123,7 +123,7 @@ Maximum possible with every question answered: 320 points = 100%.
 | Leave it alone. | 0 |
 | Laugh privately. | 5 |
 | Forward the link to two other group chats. | 13 |
-| Everyone comments at once. Macam biasa. | 20 |
+| Screenshot muka dia, buat sticker WhatsApp, pastu spam dalam group. | 20 |
 
 ### 13. Someone apologises online. You…
 
@@ -152,11 +152,11 @@ Maximum possible with every question answered: 320 points = 100%.
 | Whenever I disagree. | 13 |
 | Mass-reporting with friends is a hobby. | 20 |
 
-### 16. People wish you happy birthday on your wall. You…
+### 16. A random girl posts a makeup tutorial on TikTok. What's your comment?
 
 | Answer | Points |
 |---|---|
-| Say thanks once, to everyone. | 0 |
-| Like every comment. | 5 |
-| Reply “thank you sayang” to every single one. | 13 |
-| Repost all of them into a 47-slide story. | 20 |
+| “Cantiknya! Share link product please.” | 0 |
+| Just leave a ❤️ emoji. | 5 |
+| “Cantik, tapi lagi manis kalau pakai tudung labuh sikit sis.” | 13 |
+| “Muka basic je pun. Filter tebal boleh la. Kenapa FYP aku penuh benda macam ni?” | 20 |

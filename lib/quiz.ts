@@ -115,7 +115,7 @@ export const QUESTIONS: Question[] = [
       { label: "Leave it alone.", weight: 0 },
       { label: "Laugh privately.", weight: 5 },
       { label: "Forward the link to two other group chats.", weight: 13 },
-      { label: "Everyone comments at once. Macam biasa.", weight: 20 },
+      { label: "Screenshot muka dia, buat sticker WhatsApp, pastu spam dalam group.", weight: 20 },
     ],
   },
   {
@@ -146,12 +146,12 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    prompt: "People wish you happy birthday on your wall. You…",
+    prompt: "A random girl posts a makeup tutorial on TikTok. What's your comment?",
     options: [
-      { label: "Say thanks once, to everyone.", weight: 0 },
-      { label: "Like every comment.", weight: 5 },
-      { label: "Reply “thank you sayang” to every single one.", weight: 13 },
-      { label: "Repost all of them into a 47-slide story.", weight: 20 },
+      { label: "“Cantiknya! Share link product please.”", weight: 0 },
+      { label: "Just leave a ❤️ emoji.", weight: 5 },
+      { label: "“Cantik, tapi lagi manis kalau pakai tudung labuh sikit sis.”", weight: 13 },
+      { label: "“Muka basic je pun. Filter tebal boleh la. Kenapa FYP aku penuh benda macam ni?”", weight: 20 },
     ],
   },
 ];
