@@ -122,7 +122,7 @@ function StudioLights({ score }: { score: number }) {
 
   useFrame((_, dt) => {
     if (!ambient.current) return;
-    // "Maximum Kepam": ambient goes blood red past 80%.
+    // "Maximum Kepam": ambient goes blood red past ANGRY_AT.
     ambient.current.color.lerp(score > ANGRY_AT ? hot : calm, 1 - Math.exp(-4 * dt));
   });
 
