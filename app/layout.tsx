@@ -5,11 +5,9 @@ import "./globals.css";
 const fredoka = Fredoka({ variable: "--font-fredoka", subsets: ["latin"] });
 const cherry = Cherry_Bomb_One({ variable: "--font-cherry", weight: "400", subsets: ["latin"] });
 
-// Absolute URL for link-preview images. Set NEXT_PUBLIC_SITE_URL as a Cloudflare build variable once the
-// custom domain exists; until then production falls back to the workers.dev address.
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.NODE_ENV === "production" ? "https://kepam-meter-web.yusufmohdsuhair.workers.dev" : "http://localhost:3000");
+// Absolute URL for link-preview images. Set NEXT_PUBLIC_SITE_URL in the Pages project (the canonical
+// pages.dev or custom domain); CF_PAGES_URL is Pages' per-deployment URL and keeps previews working.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.CF_PAGES_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

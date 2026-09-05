@@ -1,12 +1,9 @@
-// Cloudflare Workers, assets-only: serves the static export in ./out (next.config.ts sets output: "export").
-// Cloudflare build settings must be: build command `npm run build`, deploy command `npx wrangler deploy`,
-// framework preset "None" (the "Next.js" preset runs OpenNext, which needs a server build and fails here).
+// Cloudflare Pages: serves the static export in ./out (next.config.ts sets output: "export").
+// Pages project settings: build command `npm run build`, build output directory `out`,
+// environment variables NODE_VERSION=22 and NEXT_PUBLIC_SITE_URL=https://<project>.pages.dev.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "kepammeter",
   "compatibility_date": "2026-09-03",
-  "assets": {
-    "directory": "./out",
-    "not_found_handling": "404-page"
-  }
+  "pages_build_output_dir": "./out"
 }
