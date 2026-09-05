@@ -12,7 +12,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.CF_PAGES_URL ??
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "KepamMeter",
-  description: "A meter to evaluate your kepamism. Answer 5 questions, get diagnosed.",
+  description: "A meter to evaluate your kepamism. Answer 8 random questions, get diagnosed.",
   openGraph: {
     title: "KepamMeter",
     description: "How kepam are you? Take the test.",

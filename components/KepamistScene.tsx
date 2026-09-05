@@ -14,7 +14,7 @@ function cssColor(name: string, fallback: string) {
   return new Color(getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback);
 }
 
-function Kepamist({ score, still }: { score: number; still: boolean }) {
+function Kepamist({ score, gepuk, still }: { score: number; gepuk: number; still: boolean }) {
   const { scene } = useGLTF(MODEL_URL, DRACO_PATH);
   const group = useRef<Group>(null);
   const gl = useThree((s) => s.gl);
@@ -62,9 +62,14 @@ function Kepamist({ score, still }: { score: number; still: boolean }) {
     };
   }, [gl]);
 
-  useFrame((_, dt) => {
+  useFrame((state, dt) => {
     if (!group.current) return;
     const d = drag.current;
+    // Gepuk rage: the mascot shakes harder the more mob energy it has (off under reduced motion).
+    const t = state.clock.elapsedTime;
+    const amp = still ? 0 : (gepuk / 100) ** 2 * 0.06;
+    group.current.position.set(Math.sin(t * 41) * amp, Math.sin(t * 53) * amp, 0);
+    group.current.rotation.z = Math.sin(t * 47) * amp * 1.5;
     if (!d.active) {
       // Idle turntable that spins up to a frantic blur at 100%, plus any leftover fling.
       // Reduced motion: no idle spin; dragging still works and the fling still settles.
@@ -113,7 +118,7 @@ function StudioLights({ score }: { score: number }) {
   );
 }
 
-export default function KepamistScene({ score }: { score: number }) {
+export default function KepamistScene({ score, gepuk }: { score: number; gepuk: number }) {
   const still = useReducedMotion() ?? false;
   const wrap = useRef<HTMLDivElement>(null);
   // Stop the render loop while the hero is scrolled out of view (mobile).
@@ -137,7 +142,7 @@ export default function KepamistScene({ score }: { score: number }) {
       >
         <StudioLights score={score} />
         <Suspense fallback={null}>
-          <Kepamist score={score} still={still} />
+          <Kepamist score={score} gepuk={gepuk} still={still} />
         </Suspense>
       </Canvas>
     </div>

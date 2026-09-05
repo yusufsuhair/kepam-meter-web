@@ -3,11 +3,11 @@
 import { MotionConfig } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import KepamMeter from "@/components/KepamMeter";
 import NowPlayingBar from "@/components/NowPlayingBar";
 import Quiz from "@/components/Quiz";
-import { QUESTIONS, scoreFor } from "@/lib/quiz";
+import { pickQuestions, scoreFor, SESSION_SIZE, type Answer, type Question } from "@/lib/quiz";
 
 const KepamistScene = dynamic(() => import("@/components/KepamistScene"), {
   ssr: false,
@@ -18,7 +18,7 @@ const KepamistScene = dynamic(() => import("@/components/KepamistScene"), {
   ),
 });
 
-const EMPTY = QUESTIONS.map(() => null);
+const subscribeNothing = () => () => {};
 
 const cta =
   "inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:bg-white/90 active:scale-95";
@@ -30,8 +30,14 @@ const MOOD = {
 };
 
 export default function Home() {
-  const [answers, setAnswers] = useState<(number | null)[]>(EMPTY);
-  const score = scoreFor(answers);
+  // Questions are drawn on the client only, so the prerendered HTML stays deterministic; "New questions" redraws.
+  const mounted = useSyncExternalStore(subscribeNothing, () => true, () => false);
+  const firstDraw = useMemo<Question[]>(() => (mounted ? pickQuestions() : []), [mounted]);
+  const [redraw, setRedraw] = useState<Question[] | null>(null);
+  const questions = redraw ?? firstDraw;
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  const scores = scoreFor(questions, answers);
+  const score = scores.total;
   // Below lg the test screen gets its own compact mascot; mounted only there so desktop keeps one WebGL context.
   const [phone, setPhone] = useState(false);
   useEffect(() => {
@@ -69,7 +75,7 @@ export default function Home() {
                   Take the test
                   <ArrowDown className="h-4 w-4" aria-hidden />
                 </a>
-                <p className="text-sm text-white/60">5 questions. One official diagnosis.</p>
+                <p className="text-sm text-white/60">{SESSION_SIZE} random questions. One official diagnosis.</p>
               </div>
             </section>
 
@@ -82,17 +88,33 @@ export default function Home() {
               <div className="flex items-center gap-3 lg:block">
                 {phone && (
                   <div className="h-56 min-w-0 flex-1 overflow-hidden sm:h-72" aria-hidden>
-                    <KepamistScene score={score} />
+                    <KepamistScene score={score} gepuk={scores.gepuk} />
                   </div>
                 )}
-                <KepamMeter score={score} className="w-[46%] max-w-[220px] shrink-0 sm:max-w-[260px] lg:mx-auto lg:w-full" />
+                <KepamMeter score={scores.total} className="w-[46%] max-w-[220px] shrink-0 sm:max-w-[260px] lg:mx-auto lg:w-full" />
               </div>
-              <Quiz
-                answers={answers}
-                score={score}
-                onAnswer={(q, o) => setAnswers((a) => a.map((v, i) => (i === q ? o : v)))}
-                onReset={() => setAnswers(EMPTY)}
-              />
+              {questions.length > 0 ? (
+                <Quiz
+                  questions={questions}
+                  answers={answers}
+                  scores={scores}
+                  onAnswer={(q, o) =>
+                    setAnswers((a) => {
+                      const next = [...a];
+                      next[q] = o;
+                      return next;
+                    })
+                  }
+                  onReset={() => {
+                    setRedraw(pickQuestions());
+                    setAnswers([]);
+                  }}
+                />
+              ) : (
+                <div className="rounded-3xl border border-white/15 bg-white/10 p-8 text-center text-sm uppercase tracking-widest text-white/60 backdrop-blur-xl">
+                  Shuffling questions…
+                </div>
+              )}
             </section>
           </div>
 
@@ -101,7 +123,7 @@ export default function Home() {
             className="order-2 h-[calc(100svh-var(--bar-h)-14.25rem)] min-h-80 overflow-hidden lg:sticky lg:top-0 lg:h-[calc(100svh-var(--bar-h))]"
             aria-label="The Kepamist 3D model"
           >
-            <KepamistScene score={score} />
+            <KepamistScene score={score} gepuk={scores.gepuk} />
           </div>
 
           <div className="order-3 flex flex-col items-center gap-2 px-4 pt-3 pb-6 lg:hidden">
@@ -109,7 +131,7 @@ export default function Home() {
               Take the test
               <ArrowDown className="h-4 w-4" aria-hidden />
             </a>
-            <p className="text-xs text-white/60">5 questions. One official diagnosis.</p>
+            <p className="text-xs text-white/60">{SESSION_SIZE} random questions. One official diagnosis.</p>
           </div>
         </div>
       </main>

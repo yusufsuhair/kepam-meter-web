@@ -1,6 +1,6 @@
 # KepamMeter
 
-A meter to evaluate your kepamism. Five questions, one 3D Kepamist, one diagnosis.
+A meter to evaluate your kepamism. Eight random questions from a bank of fifteen, one 3D Kepamist, one diagnosis.
 
 Next.js 16 · React 19 · Tailwind v4 · React Three Fiber · drei · framer-motion · lucide-react
 

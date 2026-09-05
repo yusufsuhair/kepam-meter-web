@@ -2,28 +2,35 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
-import { QUESTIONS, diagnose } from "@/lib/quiz";
+import { diagnose, SKIP, type Answer, type Question, type Scores } from "@/lib/quiz";
 
 type Props = {
-  answers: (number | null)[];
-  score: number;
-  onAnswer: (question: number, option: number) => void;
+  questions: Question[];
+  answers: Answer[];
+  scores: Scores;
+  onAnswer: (question: number, option: Answer) => void;
   onReset: () => void;
+};
+
+const AXIS_CHIP = {
+  kepam: "border-accent/40 bg-accent/15 text-accent-soft",
+  gepuk: "border-orange-400/40 bg-orange-500/15 text-orange-200",
 };
 
 const glass = "rounded-3xl border border-white/15 bg-white/10 shadow-2xl shadow-black/30 backdrop-blur-xl";
 const primary = "rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:bg-white/90 active:scale-95";
 
-export default function Quiz({ answers, score, onAnswer, onReset }: Props) {
+export default function Quiz({ questions, answers, scores, onAnswer, onReset }: Props) {
   const [step, setStep] = useState(0);
-  const done = step >= QUESTIONS.length;
+  const done = step >= questions.length;
+  const q = questions[step];
   // Only move focus once the visitor has started; never steal it on page load.
   const touched = useRef(false);
   const focusHeading = (el: HTMLHeadingElement | null) => {
     if (touched.current) el?.focus({ preventScroll: true });
   };
 
-  function pick(option: number) {
+  function pick(option: Answer) {
     touched.current = true;
     onAnswer(step, option);
     setStep((s) => s + 1);
@@ -38,7 +45,7 @@ export default function Quiz({ answers, score, onAnswer, onReset }: Props) {
     <div className={`${glass} p-4 sm:p-8`}>
       <AnimatePresence mode="wait">
         {done ? (
-          <Results key="results" score={score} onReset={reset} headingRef={focusHeading} />
+          <Results key="results" scores={scores} onReset={reset} headingRef={focusHeading} />
         ) : (
           <motion.div
             key={step}
@@ -47,28 +54,36 @@ export default function Quiz({ answers, score, onAnswer, onReset }: Props) {
             exit={{ opacity: 0, x: -24 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="mb-3 flex items-center justify-between text-xs uppercase tracking-widest text-white/60 sm:mb-4">
+            <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-widest text-white/60 sm:mb-4">
               <span aria-live="polite">
-                Question {step + 1} / {QUESTIONS.length}
+                Question {step + 1} / {questions.length}
               </span>
-              {step > 0 && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    touched.current = true;
-                    setStep((s) => s - 1);
-                  }}
-                  className="-my-2 min-h-11 rounded-full px-3 hover:bg-white/10 hover:text-white"
-                >
-                  ← Back
+              <span className={`rounded-full border px-2 py-0.5 text-[10px] ${AXIS_CHIP[q.axis]}`} title={`Counts towards your ${q.axis} score`}>
+                {q.axis}
+              </span>
+              <span className="-my-2 ml-auto flex">
+                {step > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      touched.current = true;
+                      setStep((s) => s - 1);
+                    }}
+                    className="min-h-11 rounded-full px-3 hover:bg-white/10 hover:text-white"
+                  >
+                    ← Back
+                  </button>
+                )}
+                <button type="button" onClick={() => pick(SKIP)} className="min-h-11 rounded-full px-3 hover:bg-white/10 hover:text-white">
+                  Skip →
                 </button>
-              )}
+              </span>
             </div>
             <h2 ref={focusHeading} tabIndex={-1} className="mb-4 text-2xl font-semibold leading-snug sm:mb-6 sm:text-3xl">
-              {QUESTIONS[step].prompt}
+              {q.prompt}
             </h2>
             <ul className="grid gap-2.5 sm:gap-3">
-              {QUESTIONS[step].options.map((o, i) => {
+              {q.options.map((o, i) => {
                 const chosen = answers[step] === i;
                 return (
                   <li key={o.label}>
@@ -96,16 +111,16 @@ export default function Quiz({ answers, score, onAnswer, onReset }: Props) {
 }
 
 function Results({
-  score,
+  scores,
   onReset,
   headingRef,
 }: {
-  score: number;
+  scores: Scores;
   onReset: () => void;
   headingRef: (el: HTMLHeadingElement | null) => void;
 }) {
-  const d = diagnose(score);
-  const text = `I scored ${score}% on the KepamMeter ${d.emoji} Diagnosis: ${d.title}. How kepam are you?`;
+  const d = diagnose(scores);
+  const text = `I scored ${scores.total}% on the KepamMeter ${d.emoji} Diagnosis: ${d.title}. How kepam are you?`;
   const url = typeof window === "undefined" ? "" : window.location.href;
   const shareX = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
   // Threads has no url param; the link rides in the text and unfurls into the OG card.
@@ -139,7 +154,7 @@ function Results({
           onClick={onReset}
           className="rounded-full border border-white/20 px-6 py-3 font-semibold transition hover:bg-white/10 active:scale-95"
         >
-          Try again
+          New questions
         </button>
       </div>
     </motion.div>
