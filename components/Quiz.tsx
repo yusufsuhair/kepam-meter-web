@@ -13,6 +13,15 @@ type Props = {
 };
 
 const glass = "rounded-3xl border border-white/15 bg-white/10 shadow-2xl shadow-black/30 backdrop-blur-xl";
+function shuffledIndices(length: number): number[] {
+  const arr = Array.from({ length }, (_, i) => i);
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 const primary = "rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:bg-white/90 active:scale-95";
 
 export default function Quiz({ questions, answers, score, onAnswer, onReset }: Props) {
@@ -21,6 +30,10 @@ export default function Quiz({ questions, answers, score, onAnswer, onReset }: P
   const q = questions[step];
   // Only move focus once the visitor has started; never steal it on page load.
   const touched = useRef(false);
+  // Each question's options are shown in a random order, but scoring always uses the option's
+  // real index/weight. Generated once per mount/attempt in state (event-driven, not during render).
+  const [orders, setOrders] = useState(() => questions.map((qq) => shuffledIndices(qq.options.length)));
+  const order = orders[step] ?? q.options.map((_, i) => i);
   const focusHeading = (el: HTMLHeadingElement | null) => {
     if (touched.current) el?.focus({ preventScroll: true });
   };
@@ -34,6 +47,7 @@ export default function Quiz({ questions, answers, score, onAnswer, onReset }: P
   function reset() {
     onReset();
     setStep(0);
+    setOrders(questions.map((qq) => shuffledIndices(qq.options.length)));
   }
 
   return (
@@ -75,7 +89,8 @@ export default function Quiz({ questions, answers, score, onAnswer, onReset }: P
               {q.prompt}
             </h2>
             <ul className="grid gap-2.5 sm:gap-3">
-              {q.options.map((o, i) => {
+              {order.map((i) => {
+                const o = q.options[i];
                 const chosen = answers[step] === i;
                 return (
                   <li key={o.label}>
