@@ -16,10 +16,10 @@ npm run build
 ## Structure
 
 - `lib/quiz.ts` — questions, option weights, `scoreFor()`, `diagnose()`
-- `components/KepamistScene.tsx` — R3F canvas, Float, studio lights, score-driven spin / scale / red light
+- `components/KepamistScene.tsx` — R3F canvas, Float, studio lights, drag-to-rotate, score-driven spin / scale / red light
 - `components/KepamMeter.tsx` — SVG speedometer gauge with a spring needle
 - `components/Quiz.tsx` — question cards, results, Share to X
-- `components/NowPlayingBar.tsx` — fixed bottom music player for `public/kepamsong.mp3` (autoplays, or starts on first interaction)
+- `components/NowPlayingBar.tsx` — fixed bottom music player for `public/kepamsong.mp3`. Autoplays with sound where the browser allows it; otherwise autoplays muted and unmutes on the first tap/click/key
 - `app/page.tsx` — layout and shared score state
 
 ## The model

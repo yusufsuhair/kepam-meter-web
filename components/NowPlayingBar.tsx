@@ -20,9 +20,13 @@ function formatTime(s: number) {
   return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, "0")}`;
 }
 
+// Events that count as a user gesture for the browser autoplay policy.
+const GESTURES = ["pointerdown", "keydown", "touchend"] as const;
+
 function useSong() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
   const [volume, setVolumeState] = useState(0.6);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -37,27 +41,36 @@ function useSong() {
     const onMeta = () => setDuration(audio.duration);
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
+    const onVolume = () => setMuted(audio.muted);
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("loadedmetadata", onMeta);
     audio.addEventListener("play", onPlay);
     audio.addEventListener("pause", onPause);
+    audio.addEventListener("volumechange", onVolume);
 
-    // Try autoplay; if the browser blocks it, start on the first interaction.
-    const events = ["click", "touchstart", "scroll", "keydown"] as const;
-    const onInteraction = () => {
-      audio.play().catch(() => {});
-      events.forEach((e) => document.removeEventListener(e, onInteraction));
+    // First gesture: unmute and (re)start with sound.
+    const unlock = () => {
+      audio.muted = false;
+      audio
+        .play()
+        .then(() => GESTURES.forEach((e) => document.removeEventListener(e, unlock)))
+        .catch(() => {});
     };
+    // Autoplay with sound; if the browser blocks it, autoplay muted (always allowed)
+    // so the bar is live from the first frame, then unmute on the first gesture.
     audio.play().catch(() => {
-      events.forEach((e) => document.addEventListener(e, onInteraction, { once: true, passive: true }));
+      audio.muted = true;
+      audio.play().catch(() => {});
+      GESTURES.forEach((e) => document.addEventListener(e, unlock, { passive: true }));
     });
 
     return () => {
-      events.forEach((e) => document.removeEventListener(e, onInteraction));
+      GESTURES.forEach((e) => document.removeEventListener(e, unlock));
       audio.removeEventListener("timeupdate", onTime);
       audio.removeEventListener("loadedmetadata", onMeta);
       audio.removeEventListener("play", onPlay);
       audio.removeEventListener("pause", onPause);
+      audio.removeEventListener("volumechange", onVolume);
       audio.pause();
       audio.src = "";
     };
@@ -81,7 +94,7 @@ function useSong() {
     if (audioRef.current) audioRef.current.volume = v;
   }, []);
 
-  return { isPlaying, volume, currentTime, duration, togglePlay, seek, setVolume };
+  return { isPlaying, muted, volume, currentTime, duration, togglePlay, seek, setVolume };
 }
 
 function PlayPauseBtn({ isPlaying, onClick, size = "md" }: { isPlaying: boolean; onClick: () => void; size?: "sm" | "md" }) {
@@ -155,9 +168,10 @@ function Art({ isPlaying, className }: { isPlaying: boolean; className: string }
 }
 
 export default function NowPlayingBar() {
-  const { isPlaying, volume, currentTime, duration, togglePlay, seek, setVolume } = useSong();
+  const { isPlaying, muted, volume, currentTime, duration, togglePlay, seek, setVolume } = useSong();
   const progress = duration ? currentTime / duration : 0;
-  const VolumeIcon = volume === 0 ? VolumeX : volume < 0.4 ? Volume1 : Volume2;
+  const VolumeIcon = muted || volume === 0 ? VolumeX : volume < 0.4 ? Volume1 : Volume2;
+  const subtitle = muted ? "Tap anywhere for sound" : ARTIST;
   const seekFromClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     seek(((e.clientX - rect.left) / rect.width) * duration);
@@ -180,8 +194,8 @@ export default function NowPlayingBar() {
         <Art isPlaying={isPlaying} className="h-10 w-10" />
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-zinc-100">{TITLE}</p>
-          <p className="truncate text-xs text-zinc-500">
-            {formatTime(currentTime)} / {formatTime(duration)}
+          <p className={`truncate text-xs ${muted ? "text-fuchsia-300" : "text-zinc-500"}`}>
+            {muted ? subtitle : `${formatTime(currentTime)} / ${formatTime(duration)}`}
           </p>
         </div>
         <button type="button" aria-label="Like" className="text-zinc-500 transition-colors hover:text-fuchsia-400">
@@ -196,7 +210,7 @@ export default function NowPlayingBar() {
           <Art isPlaying={isPlaying} className="h-12 w-12" />
           <div className="min-w-0">
             <p className="truncate text-sm font-medium text-zinc-100">{TITLE}</p>
-            <p className="truncate text-xs text-zinc-400">{ARTIST}</p>
+            <p className={`truncate text-xs ${muted ? "text-fuchsia-300" : "text-zinc-400"}`}>{subtitle}</p>
           </div>
           <button type="button" aria-label="Like" className="ml-1 shrink-0 text-zinc-500 transition-colors hover:text-fuchsia-400">
             <Heart className="h-4 w-4" />
@@ -244,7 +258,7 @@ export default function NowPlayingBar() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <VolumeIcon className={`h-4 w-4 shrink-0 ${volume === 0 ? "text-zinc-500" : "text-zinc-300"}`} />
+            <VolumeIcon className={`h-4 w-4 shrink-0 ${muted || volume === 0 ? "text-zinc-500" : "text-zinc-300"}`} />
             <input
               type="range"
               min={0}
