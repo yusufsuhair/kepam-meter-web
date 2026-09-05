@@ -11,6 +11,15 @@ export type Answer = number | null;
 // so picking the last option on every question scores exactly 100%.
 export const QUESTIONS: Question[] = [
   {
+    prompt: "Do you like to cut the queue?",
+    options: [
+      { label: "Never.", weight: 0 },
+      { label: "Rarely. Only if I'm really late.", weight: 6 },
+      { label: "Sometimes. Nobody notices.", weight: 13 },
+      { label: "Often. And I scold people back if they scold me.", weight: 20 },
+    ],
+  },
+  {
     prompt: "You're stressed. What do you do?",
     options: [
       { label: "Drink mineral water.", weight: 0 },
@@ -71,15 +80,6 @@ export const QUESTIONS: Question[] = [
       { label: "Read the thread quietly.", weight: 6 },
       { label: "Add a “yikes” comment.", weight: 13 },
       { label: "Dig up their 2014 tweets too.", weight: 20 },
-    ],
-  },
-  {
-    prompt: "A restaurant gets one bad review. You…",
-    options: [
-      { label: "Take it as one opinion.", weight: 0 },
-      { label: "Check the other reviews first.", weight: 5 },
-      { label: "Leave a 1-star without ever visiting.", weight: 13 },
-      { label: "Organise the group to “bagi rating”.", weight: 20 },
     ],
   },
   {

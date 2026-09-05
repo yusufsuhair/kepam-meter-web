@@ -17,7 +17,16 @@ Maximum possible with every question answered: 320 points = 100%.
 
 ## Questions
 
-### 1. You're stressed. What do you do?
+### 1. Do you like to cut the queue?
+
+| Answer | Points |
+|---|---|
+| Never. | 0 |
+| Rarely. Only if I'm really late. | 6 |
+| Sometimes. Nobody notices. | 13 |
+| Often. And I scold people back if they scold me. | 20 |
+
+### 2. You're stressed. What do you do?
 
 | Answer | Points |
 |---|---|
@@ -26,7 +35,7 @@ Maximum possible with every question answered: 320 points = 100%.
 | Buy ayam gepuk. | 13 |
 | Buy matcha AND gepuk. Terpaling stressed. | 20 |
 
-### 2. Do you use the word “terpaling”?
+### 3. Do you use the word “terpaling”?
 
 | Answer | Points |
 |---|---|
@@ -35,7 +44,7 @@ Maximum possible with every question answered: 320 points = 100%.
 | Daily. Terpaling daily. | 14 |
 | It's my whole personality. | 20 |
 
-### 3. How often do you say “guys, you know what, I said what I said, periodt, literally, hello??”
+### 4. How often do you say “guys, you know what, I said what I said, periodt, literally, hello??”
 
 | Answer | Points |
 |---|---|
@@ -44,7 +53,7 @@ Maximum possible with every question answered: 320 points = 100%.
 | Daily. Literally. | 13 |
 | Every sentence. Hello?? Periodt. | 20 |
 
-### 4. Do you use CAPS LOCK when arguing online?
+### 5. Do you use CAPS LOCK when arguing online?
 
 | Answer | Points |
 |---|---|
@@ -53,7 +62,7 @@ Maximum possible with every question answered: 320 points = 100%.
 | MY KEYBOARD IS STUCK LIKE THIS. | 14 |
 | I TYPE LIKE THIS TO MY OWN GRANDMA. | 20 |
 
-### 5. Do you hate men?
+### 6. Do you hate men?
 
 | Answer | Points |
 |---|---|
@@ -62,7 +71,7 @@ Maximum possible with every question answered: 320 points = 100%.
 | Only online. In real life I'm very polite. | 13 |
 | Yes, and I post about it daily. Periodt. | 20 |
 
-### 6. How fast do you reply to viral drama?
+### 7. How fast do you reply to viral drama?
 
 | Answer | Points |
 |---|---|
@@ -71,7 +80,7 @@ Maximum possible with every question answered: 320 points = 100%.
 | Within the hour, with screenshots. | 13 |
 | Reply? I AM the drama. | 20 |
 
-### 7. Someone gets cancelled for a tweet from 2016. You…
+### 8. Someone gets cancelled for a tweet from 2016. You…
 
 | Answer | Points |
 |---|---|
@@ -79,15 +88,6 @@ Maximum possible with every question answered: 320 points = 100%.
 | Read the thread quietly. | 6 |
 | Add a “yikes” comment. | 13 |
 | Dig up their 2014 tweets too. | 20 |
-
-### 8. A restaurant gets one bad review. You…
-
-| Answer | Points |
-|---|---|
-| Take it as one opinion. | 0 |
-| Check the other reviews first. | 5 |
-| Leave a 1-star without ever visiting. | 13 |
-| Organise the group to “bagi rating”. | 20 |
 
 ### 9. Someone posts a photo of their nasi lemak. You…
 
