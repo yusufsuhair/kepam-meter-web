@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-05T00:00:00Z",
+  "title": "Design System: KepamMeter",
+  "extensions": {
+    "colorMeta": {
+      "void-ink": { "role": "neutral", "displayName": "Void Ink", "canonical": "#05010f", "tonalRamp": ["#05010f", "#120a24", "#1f1438", "#2f2150", "#463466", "#66517f", "#8a779f", "#b3a3c2"] },
+      "kepam-fuchsia": { "role": "primary", "displayName": "Kepam Fuchsia", "canonical": "#e879f9", "tonalRamp": ["#3b0a41", "#5e1466", "#86208f", "#b13ebc", "#d05fdd", "#e879f9", "#f0abfc", "#fae8ff"] },
+      "kepam-fuchsia-soft": { "role": "primary", "displayName": "Kepam Fuchsia Soft", "canonical": "#f0abfc", "tonalRamp": ["#3b0a41", "#5e1466", "#86208f", "#b13ebc", "#d05fdd", "#e879f9", "#f0abfc", "#fae8ff"] },
+      "calm-violet": { "role": "secondary", "displayName": "Calm Violet", "canonical": "#3b0764", "tonalRamp": ["#1c0330", "#3b0764", "#581c87", "#6b21a8", "#7e22ce", "#a855f7", "#c084fc", "#e9d5ff"] },
+      "deep-sky": { "role": "secondary", "displayName": "Deep Sky", "canonical": "#0c4a6e", "tonalRamp": ["#082f49", "#0c4a6e", "#075985", "#0369a1", "#0284c7", "#0ea5e9", "#7dd3fc", "#e0f2fe"] },
+      "scene-calm": { "role": "secondary", "displayName": "Scene Calm", "canonical": "#cfd8ff", "tonalRamp": ["#1a2040", "#2c3566", "#43508f", "#5f6fb5", "#8494d1", "#a9b5e6", "#cfd8ff", "#eef1ff"] },
+      "blood-alert": { "role": "tertiary", "displayName": "Blood Alert", "canonical": "#ff2d2d", "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ff2d2d", "#fca5a5", "#fee2e2"] },
+      "blood-alert-glow": { "role": "tertiary", "displayName": "Blood Alert Glow", "canonical": "#7f1d1d", "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ff2d2d", "#fca5a5", "#fee2e2"] },
+      "blood-alert-deep": { "role": "tertiary", "displayName": "Blood Alert Deep", "canonical": "#450a0a", "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ff2d2d", "#fca5a5", "#fee2e2"] },
+      "gauge-low": { "role": "tertiary", "displayName": "Gauge Low", "canonical": "#34d399", "tonalRamp": ["#022c22", "#064e3b", "#065f46", "#047857", "#059669", "#10b981", "#34d399", "#d1fae5"] },
+      "gauge-mid": { "role": "tertiary", "displayName": "Gauge Mid", "canonical": "#fbbf24", "tonalRamp": ["#451a03", "#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fef3c7"] },
+      "gauge-high": { "role": "tertiary", "displayName": "Gauge High", "canonical": "#ef4444", "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#fca5a5", "#fee2e2"] },
+      "white": { "role": "neutral", "displayName": "White", "canonical": "#ffffff", "tonalRamp": ["#262626", "#404040", "#525252", "#737373", "#a3a3a3", "#d4d4d4", "#f5f5f5", "#ffffff"] },
+      "bar-surface": { "role": "neutral", "displayName": "Bar Surface", "canonical": "#09090b", "tonalRamp": ["#09090b", "#18181b", "#27272a", "#3f3f46", "#52525b", "#71717a", "#a1a1aa", "#e4e4e7"] },
+      "text-secondary": { "role": "neutral", "displayName": "Text Secondary", "canonical": "#a1a1aa", "tonalRamp": ["#09090b", "#18181b", "#27272a", "#3f3f46", "#52525b", "#71717a", "#a1a1aa", "#e4e4e7"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The KepamMeter wordmark only; 'Meter' in Kepam Fuchsia." },
+      "headline": { "displayName": "Headline", "purpose": "The question prompt, one per screen." },
+      "title": { "displayName": "Title", "purpose": "Diagnosis name and the gauge percent (tabular)." },
+      "body": { "displayName": "Body", "purpose": "Option labels and the diagnosis blurb; pills at 600." },
+      "label": { "displayName": "Label", "purpose": "Uppercase tracked state and official lines (gauge label at 0.25em; step counter and 'Official diagnosis' at 0.1em)." }
+    },
+    "shadows": [
+      { "name": "glow-accent", "value": "0 0 20px color-mix(in oklab, var(--color-accent) 45%, transparent)", "purpose": "Live-object marker on the play button and art tile." },
+      { "name": "glass-lift", "value": "0 25px 50px -12px rgba(0,0,0,0.3)", "purpose": "The quiz card only; the one real drop shadow." }
+    ],
+    "motion": [
+      { "name": "gauge-spring", "value": "spring(stiffness 80, damping 14, mass 0.8)", "purpose": "Needle and percent; jumps under reduced motion." },
+      { "name": "mood-fade", "value": "opacity 1000ms", "purpose": "Cross-fade to Blood Alert corner glows past 80%." },
+      { "name": "step-slide", "value": "250ms, x 24px", "purpose": "Question step enter/exit." },
+      { "name": "results-pop", "value": "300ms, scale 0.95 to 1", "purpose": "Results screen enter." },
+      { "name": "bar-enter", "value": "500ms easeOut, delay 300ms, y 100px", "purpose": "Now Playing bar slide-up on load." },
+      { "name": "play-ring", "value": "1000ms easeOut infinite, scale 1 to 1.8, opacity 0.5 to 0", "purpose": "Expanding fuchsia ring while playing." },
+      { "name": "seek-thumb", "value": "opacity 150ms", "purpose": "Seek thumb reveal on hover/focus." },
+      { "name": "press", "value": "scale 0.92 to 0.98", "purpose": "Tactile press on every control." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ],
+    "focusRing": "outline: 2px solid var(--color-accent); outline-offset: 3px",
+    "backdrop": "backdrop-filter: blur(24px)",
+    "barHeight": { "base": "68px", "md": "78px" }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one white pill: Share to X.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Share to X</a>",
+      "css": ".ds-btn-primary { display: inline-block; background: #fff; color: #000; border-radius: 9999px; padding: 12px 24px; font: 600 16px/1.5 Geist, system-ui, sans-serif; text-decoration: none; transition: background .15s, transform .15s; } .ds-btn-primary:hover { background: rgba(255,255,255,.9); } .ds-btn-primary:active { transform: scale(.95); } .ds-btn-primary:focus-visible { outline: 2px solid var(--color-accent, #e879f9); outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Bordered transparent pill: Try again.",
+      "html": "<button class=\"ds-btn-ghost\" type=\"button\">Try again</button>",
+      "css": ".ds-btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.2); border-radius: 9999px; padding: 12px 24px; font: 600 16px/1.5 Geist, system-ui, sans-serif; cursor: pointer; transition: background .15s, transform .15s; } .ds-btn-ghost:hover { background: rgba(255,255,255,.1); } .ds-btn-ghost:active { transform: scale(.95); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--color-accent, #e879f9); outline-offset: 3px; }"
+    },
+    {
+      "name": "Option",
+      "kind": "chip",
+      "refersTo": "option",
+      "description": "Quiz answer tile at rest.",
+      "html": "<button class=\"ds-option\" type=\"button\" aria-pressed=\"false\">Type in CAPS LOCK so they know you are serious</button>",
+      "css": ".ds-option { display: block; width: 100%; text-align: left; background: rgba(255,255,255,.05); color: #fff; border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: 14px 16px; font: 400 16px/1.5 Geist, system-ui, sans-serif; cursor: pointer; transition: background .15s, border-color .15s, transform .15s; } .ds-option:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.3); } .ds-option:active { transform: scale(.98); } .ds-option:focus-visible { outline: 2px solid var(--color-accent, #e879f9); outline-offset: 3px; }"
+    },
+    {
+      "name": "Option (chosen)",
+      "kind": "chip",
+      "refersTo": "option-chosen",
+      "description": "Quiz answer tile in the aria-pressed state.",
+      "html": "<button class=\"ds-option-chosen\" type=\"button\" aria-pressed=\"true\">Reply 'terpaling mahal' on a nasi lemak photo</button>",
+      "css": ".ds-option-chosen { display: block; width: 100%; text-align: left; background: rgba(232,121,249,.25); color: #fff; border: 1px solid rgba(232,121,249,.7); border-radius: 16px; padding: 14px 16px; font: 400 16px/1.5 Geist, system-ui, sans-serif; cursor: pointer; transition: transform .15s; } .ds-option-chosen:active { transform: scale(.98); } .ds-option-chosen:focus-visible { outline: 2px solid var(--color-accent, #e879f9); outline-offset: 3px; }"
+    },
+    {
+      "name": "Glass Card",
+      "kind": "card",
+      "refersTo": "card-glass",
+      "description": "The quiz card: one of two blurred surfaces.",
+      "html": "<div class=\"ds-card-glass\"><p class=\"ds-card-glass__label\">Question 1 / 5</p><h2 class=\"ds-card-glass__h\">How do you react when someone posts a nasi lemak?</h2></div>",
+      "css": ".ds-card-glass { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); border-radius: 24px; padding: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,.3); backdrop-filter: blur(24px); color: #fff; font-family: Geist, system-ui, sans-serif; } .ds-card-glass__label { margin: 0 0 12px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.6); } .ds-card-glass__h { margin: 0; font-size: 24px; font-weight: 700; line-height: 1.375; }"
+    },
+    {
+      "name": "Now Playing Bar",
+      "kind": "nav",
+      "refersTo": "bar",
+      "description": "Fixed bottom music bar; phone layout.",
+      "html": "<div class=\"ds-bar\"><div class=\"ds-bar__seek\"><div class=\"ds-bar__fill\"></div></div><div class=\"ds-bar__row\"><div class=\"ds-bar__art\">K</div><div class=\"ds-bar__meta\"><p class=\"ds-bar__title\">Kepam Song</p><p class=\"ds-bar__sub\">0:42 / 2:10</p></div><button class=\"ds-play\" type=\"button\" aria-label=\"Pause\"><span class=\"ds-play__pause\"><i></i><i></i></span></button></div></div>",
+      "css": ".ds-bar { position: relative; width: 100%; background: rgba(9,9,11,.9); backdrop-filter: blur(24px); border-top: 1px solid rgba(255,255,255,.1); color: #f4f4f5; font-family: Geist, system-ui, sans-serif; } .ds-bar__seek { position: relative; height: 4px; background: rgba(255,255,255,.35); border-radius: 9999px; } .ds-bar__fill { position: absolute; inset: 0 auto 0 0; width: 33%; background: #fff; border-radius: 9999px; } .ds-bar__seek:hover .ds-bar__fill { background: var(--color-accent, #e879f9); } .ds-bar__row { display: flex; align-items: center; gap: 12px; height: 64px; padding: 0 16px; } .ds-bar__art { flex-shrink: 0; width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; background: linear-gradient(to bottom right, #e879f9, #3b0764, #0c4a6e); box-shadow: 0 0 20px color-mix(in oklab, var(--color-accent, #e879f9) 45%, transparent); } .ds-bar__meta { flex: 1; min-width: 0; } .ds-bar__title { margin: 0; font-size: 14px; font-weight: 500; color: #f4f4f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-bar__sub { margin: 0; font-size: 12px; color: #a1a1aa; font-variant-numeric: tabular-nums; } .ds-play { width: 44px; height: 44px; border-radius: 9999px; border: 0; background: #fff; color: #09090b; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px color-mix(in oklab, var(--color-accent, #e879f9) 45%, transparent); transition: transform .15s; } .ds-play:hover { transform: scale(1.05); } .ds-play:active { transform: scale(.92); } .ds-play:focus-visible { outline: 2px solid var(--color-accent, #e879f9); outline-offset: 3px; } .ds-play__pause { display: flex; gap: 3px; } .ds-play__pause i { display: block; width: 3px; height: 14px; border-radius: 9999px; background: #09090b; }"
+    },
+    {
+      "name": "Play Button",
+      "kind": "button",
+      "refersTo": "play-button",
+      "description": "44px white circle with accent glow; play glyph is CSS, not an icon.",
+      "html": "<button class=\"ds-play-btn\" type=\"button\" aria-label=\"Play\"><span class=\"ds-play-btn__tri\"></span></button>",
+      "css": ".ds-play-btn { position: relative; width: 44px; height: 44px; border-radius: 9999px; border: 0; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px color-mix(in oklab, var(--color-accent, #e879f9) 45%, transparent); transition: transform .15s; } .ds-play-btn:hover { transform: scale(1.05); } .ds-play-btn:active { transform: scale(.92); } .ds-play-btn:focus-visible { outline: 2px solid var(--color-accent, #e879f9); outline-offset: 3px; } .ds-play-btn__tri { margin-left: 2px; width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 10px solid #09090b; }"
+    },
+    {
+      "name": "KepamMeter Gauge",
+      "kind": "custom",
+      "refersTo": "title",
+      "description": "Semicircular speedometer with tabular percent and tracked label; shown at 100% (Blood Alert).",
+      "html": "<div class=\"ds-gauge\"><svg viewBox=\"0 0 200 108\" width=\"200\" style=\"overflow:visible\"><defs><linearGradient id=\"dsg\" x1=\"0\" x2=\"1\" y1=\"0\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#34d399\"/><stop offset=\"50%\" stop-color=\"#fbbf24\"/><stop offset=\"100%\" stop-color=\"#ef4444\"/></linearGradient></defs><path d=\"M 20 100 A 80 80 0 0 1 180 100\" fill=\"none\" stroke=\"rgba(255,255,255,0.12)\" stroke-width=\"14\" stroke-linecap=\"round\"/><path d=\"M 20 100 A 80 80 0 0 1 180 100\" fill=\"none\" stroke=\"url(#dsg)\" stroke-width=\"14\" stroke-linecap=\"round\"/><g transform=\"rotate(90 100 100)\"><line x1=\"100\" y1=\"100\" x2=\"100\" y2=\"38\" stroke=\"#fff\" stroke-width=\"3.5\" stroke-linecap=\"round\"/><circle cx=\"100\" cy=\"100\" r=\"6\" fill=\"#fff\"/></g></svg><div class=\"ds-gauge__pct\">100%</div><div class=\"ds-gauge__label ds-gauge__label--hot\">Maximum kepam</div></div>",
+      "css": ".ds-gauge { display: flex; flex-direction: column; align-items: center; color: #fff; font-family: Geist, system-ui, sans-serif; line-height: 1; } .ds-gauge__pct { margin-top: -8px; font-size: 30px; font-weight: 900; letter-spacing: -.025em; font-variant-numeric: tabular-nums; } .ds-gauge__label { margin-top: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .25em; color: rgba(255,255,255,.6); } .ds-gauge__label--hot { color: #ff2d2d; animation: ds-pulse 2s cubic-bezier(.4,0,.6,1) infinite; } @keyframes ds-pulse { 50% { opacity: .5; } } @media (prefers-reduced-motion: reduce) { .ds-gauge__label--hot { animation: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Midnight Scroll",
+    "overview": "The feed at 2am: black glass, a glow leaking in from the corners, one thing lit up in the middle. The Kepamist is the post you cannot stop looking at. Everything on the page is built to serve that single lit thing: a near-black void surface, two soft radial mood glows bleeding in from opposite corners, and a 3D mascot that owns the first phone screen while a fuchsia wordmark and a compact gauge ride on top of it.\n\nDensity is low and the hierarchy is blunt. One wordmark, one question at a time, one white primary pill. Surfaces are either the void itself or one of two floating glass panes (the quiz card and the fixed Now Playing bar). Light does the work that shadow does elsewhere: the accent glow marks whatever is live, the mood gradient tells you how far gone your score is, and when the score crosses 80 the whole world goes Blood Alert: the background, the ambient light on the mascot, and the gauge label all turn red together.\n\nThe voice is deadpan mock-official Manglish (PRODUCT.md binding commitment), and the type treats that voice seriously: heavy black weights, tight tracking, tabular numbers on the score. The Kepamist and the Kepam Song are original assets; the visual system exists around them and never replaces them with stand-ins.",
+    "keyCharacteristics": [
+      "Void-black surface with two corner radial glows (Calm Violet top-left, Deep Sky bottom-right) that swap to Blood Alert past 80%.",
+      "Glow is the depth system; drop shadows are soft and rare.",
+      "Glass (backdrop blur) is reserved for exactly two floating surfaces.",
+      "Pill and rounded-2xl controls, tactile on press, one white primary.",
+      "Geist only, black (900) for anything that shouts, uppercase 0.25em-tracked labels for anything official.",
+      "The score is alive: gauge, mood, mascot lighting, and label all respond to every answer."
+    ],
+    "rules": [
+      { "name": "The One Lit Thing Rule", "body": "Kepam Fuchsia is a marker, not a material. It sits on the wordmark, the focus ring, the chosen option, and the glow around what is playing. It never fills a surface larger than an option tile at 25%.", "section": "colors" },
+      { "name": "The Takeover Rule", "body": "Past 80% the page changes state as one thing: both corner glows go red, the mascot's ambient light goes red, the gauge label goes red and pulses. No element goes Blood Alert alone.", "section": "colors" },
+      { "name": "The Secondary Floor Rule", "body": "Secondary text is white at 60 to 70% or zinc-400 (text-secondary) and never lower; every secondary line stays above 4.5:1 on the void.", "section": "colors" },
+      { "name": "The Tabular Score Rule", "body": "Any number that animates (the gauge percent, the timestamps) is set tabular-nums. Digits must not reflow while moving.", "section": "typography" },
+      { "name": "The Weight Ladder Rule", "body": "900 shouts (wordmark, diagnosis, percent), 700 asks (the question), 600 acts (pills), 500 names (song title), 400 reads. Do not introduce weights between rungs.", "section": "typography" },
+      { "name": "The Light Says Live Rule", "body": "If something is playing, chosen, focused, or being lit, it glows in Kepam Fuchsia. If it is merely present, it does not.", "section": "elevation" },
+      { "name": "The Two Panes Rule", "body": "Backdrop blur (backdrop-blur-xl, 24px) is a material for the quiz card and the music bar. It is not applied to buttons, tiles, headers, or decoration.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the page on Void Ink with the two corner radial glows; the mood is the background, never a flat colour.",
+      "Do switch every mood-bound element together when the score passes 80 (The Takeover Rule).",
+      "Do use Kepam Fuchsia as a marker: wordmark, focus ring, chosen state, live glow. Keep fills at 25% or below.",
+      "Do make every control a pill or a 16px tile with a press scale (0.92 to 0.98) and the global 2px fuchsia focus ring.",
+      "Do set animated numbers in tabular-nums and reach for 900 when the copy shouts.",
+      "Do keep secondary text at white 60 to 70% or zinc-400 and above 4.5:1.",
+      "Do ship every animation behind reduced-motion (MotionConfig, motion-safe:, spring jump)."
+    ],
+    "donts": [
+      "Don't add backdrop blur to anything other than the quiz card and the music bar (The Two Panes Rule).",
+      "Don't introduce hard, offset, or coloured drop shadows; the only real shadow is the soft black glass lift under the card.",
+      "Don't add a second primary; the white pill is the one primary action on screen.",
+      "Don't use Blood Alert, the gauge sweep colours, or the mood glows as text or fill colours outside their roles.",
+      "Don't add a second typeface or a weight between the ladder rungs.",
+      "Don't explain the slang in the UI (tooltips, glossaries, translations); this is a binding brand commitment.",
+      "Don't replace the Kepamist or the Kepam Song with generic stand-ins."
+    ]
+  }
+}

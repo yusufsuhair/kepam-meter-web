@@ -37,14 +37,15 @@ Confirmed:
 - Three diagnosis bands: 0 to 30 Pure Soul, 31 to 70 Average Netizen, 71 to 100 Certified Kepamist.
 - 3D model is a Draco-compressed GLB (about 1.35 MB, 190k triangles, 1K WebP textures) served from `public/`, regenerated from the git-ignored 90 MB source with gltf-transform. Draco decoder is self-hosted in `public/draco/`.
 - Stack: Next.js 16 (App Router), React 19, Tailwind v4, React Three Fiber, drei, framer-motion, lucide-react. Client-rendered page; 3D scene is dynamically imported with SSR off.
+- Deployed as a static export (`output: "export"`) to Cloudflare Pages. No server runtime: everything, including the Open Graph card, is generated at build time.
+- Link previews: `app/opengraph-image.tsx` renders a 1200x630 card (wordmark, tagline, gauge at 100%) with the Geist faces in `app/fonts/`.
 - Must stay fast on mid-range Android phones over mobile data; the 3D asset budget above is the ceiling.
 - Autoplay policy: sound cannot be assumed; the experience must work muted.
 
 Open product decisions (not yet made):
 - **More share channels are wanted.** Only Share to X exists. WhatsApp, TikTok, IG story image, and copy-link are candidates. Which ones, and whether a shareable result image is generated, is undecided.
-- Deploy target and domain are undecided.
+- Domain is undecided. Set `NEXT_PUBLIC_SITE_URL` at build once it exists so link-preview image URLs are absolute.
 - Whether the question set grows beyond five, or rotates, is undecided.
-- Open Graph image for link previews does not exist yet.
 
 ## Brand Commitments
 

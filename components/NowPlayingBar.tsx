@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Heart, Repeat, Shuffle, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from "lucide-react";
+import { SkipBack, Volume1, Volume2, VolumeX } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const SRC = "/kepamsong.mp3";
@@ -97,14 +97,13 @@ function useSong() {
   return { isPlaying, muted, volume, currentTime, duration, togglePlay, seek, setVolume };
 }
 
-function PlayPauseBtn({ isPlaying, onClick, size = "md" }: { isPlaying: boolean; onClick: () => void; size?: "sm" | "md" }) {
-  const dim = size === "sm" ? "h-8 w-8" : "h-9 w-9";
+function PlayPauseBtn({ isPlaying, onClick }: { isPlaying: boolean; onClick: () => void }) {
   return (
     <div className="relative">
       <AnimatePresence>
         {isPlaying && (
           <motion.span
-            className="absolute inset-0 rounded-full bg-fuchsia-400/30"
+            className="absolute inset-0 rounded-full bg-accent/30"
             initial={{ scale: 1, opacity: 0.5 }}
             animate={{ scale: 1.8, opacity: 0 }}
             transition={{ duration: 1, repeat: Infinity, ease: "easeOut" }}
@@ -115,7 +114,7 @@ function PlayPauseBtn({ isPlaying, onClick, size = "md" }: { isPlaying: boolean;
         type="button"
         onClick={onClick}
         whileTap={{ scale: 0.92 }}
-        className={`relative ${dim} flex items-center justify-center rounded-full bg-white text-zinc-950 shadow-[0_0_20px_rgba(232,121,249,0.45)] transition-transform hover:scale-105`}
+        className="glow-accent relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-zinc-950 motion-safe:transition-transform hover:scale-105"
         aria-label={isPlaying ? "Pause" : "Play"}
       >
         <AnimatePresence mode="wait">
@@ -149,8 +148,10 @@ function PlayPauseBtn({ isPlaying, onClick, size = "md" }: { isPlaying: boolean;
 
 function Art({ isPlaying, className }: { isPlaying: boolean; className: string }) {
   return (
-    <div className={`relative shrink-0 overflow-hidden rounded-md bg-linear-to-br from-fuchsia-500 via-purple-700 to-sky-700 shadow-[0_0_20px_rgba(232,121,249,0.35)] ${className}`}>
-      <span className={`flex h-full w-full items-center justify-center text-lg font-black transition-transform duration-700 ${isPlaying ? "scale-110" : "scale-100"}`}>
+    <div className={`glow-accent relative shrink-0 overflow-hidden rounded-md bg-linear-to-br from-accent via-mood-a to-mood-b ${className}`}>
+      <span
+        className={`flex h-full w-full items-center justify-center text-lg font-black motion-safe:transition-transform motion-safe:duration-700 ${isPlaying ? "scale-110" : "scale-100"}`}
+      >
         K
       </span>
       <AnimatePresence>
@@ -167,15 +168,45 @@ function Art({ isPlaying, className }: { isPlaying: boolean; className: string }
   );
 }
 
+/** Drawn 4px line with a real range input over it: keyboard, screen reader, and a 24px hit area. */
+function SeekBar({
+  currentTime,
+  duration,
+  onSeek,
+  className = "",
+}: {
+  currentTime: number;
+  duration: number;
+  onSeek: (t: number) => void;
+  className?: string;
+}) {
+  const progress = duration ? currentTime / duration : 0;
+  return (
+    <div className={`group relative h-1 ${className}`}>
+      <div className="absolute inset-0 rounded-full bg-white/35" />
+      <div
+        className="absolute inset-y-0 left-0 rounded-full bg-white transition-colors group-hover:bg-accent"
+        style={{ width: `${progress * 100}%` }}
+      />
+      <input
+        type="range"
+        className="seek absolute inset-x-0 top-1/2 -translate-y-1/2"
+        min={0}
+        max={duration || 0}
+        step={0.1}
+        value={currentTime}
+        onChange={(e) => onSeek(Number(e.target.value))}
+        aria-label="Seek"
+        aria-valuetext={`${formatTime(currentTime)} of ${formatTime(duration)}`}
+      />
+    </div>
+  );
+}
+
 export default function NowPlayingBar() {
   const { isPlaying, muted, volume, currentTime, duration, togglePlay, seek, setVolume } = useSong();
-  const progress = duration ? currentTime / duration : 0;
   const VolumeIcon = muted || volume === 0 ? VolumeX : volume < 0.4 ? Volume1 : Volume2;
   const subtitle = muted ? "Tap anywhere for sound" : ARTIST;
-  const seekFromClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    seek(((e.clientX - rect.left) / rect.width) * duration);
-  };
 
   return (
     <motion.div
@@ -184,73 +215,58 @@ export default function NowPlayingBar() {
       transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
       className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-zinc-950/90 backdrop-blur-xl"
     >
-      {/* Full-width progress line */}
-      <div className="group h-1 w-full cursor-pointer bg-zinc-800" onClick={seekFromClick}>
-        <div className="h-full bg-white transition-colors group-hover:bg-fuchsia-400" style={{ width: `${progress * 100}%` }} />
-      </div>
+      {/* Mobile: full-width scrubber on the top edge */}
+      <SeekBar currentTime={currentTime} duration={duration} onSeek={seek} className="w-full md:hidden" />
+      <div className="hidden h-1 w-full md:block" aria-hidden />
 
       {/* Mobile */}
-      <div className="flex h-16 items-center gap-3 px-4 md:hidden">
+      <div className="flex h-[calc(var(--bar-h)-0.25rem)] items-center gap-3 px-4 md:hidden">
         <Art isPlaying={isPlaying} className="h-10 w-10" />
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-zinc-100">{TITLE}</p>
-          <p className={`truncate text-xs ${muted ? "text-fuchsia-300" : "text-zinc-500"}`}>
+          <p className={`truncate text-xs ${muted ? "text-accent-soft" : "text-zinc-400"}`}>
             {muted ? subtitle : `${formatTime(currentTime)} / ${formatTime(duration)}`}
           </p>
         </div>
-        <button type="button" aria-label="Like" className="text-zinc-500 transition-colors hover:text-fuchsia-400">
-          <Heart className="h-4 w-4" />
-        </button>
-        <PlayPauseBtn isPlaying={isPlaying} onClick={togglePlay} size="sm" />
+        <PlayPauseBtn isPlaying={isPlaying} onClick={togglePlay} />
       </div>
 
       {/* Desktop */}
-      <div className="hidden h-[74px] items-center gap-4 px-4 md:flex">
+      <div className="hidden h-[calc(var(--bar-h)-0.25rem)] items-center gap-4 px-4 md:flex">
         <div className="flex w-[28%] min-w-0 items-center gap-3">
           <Art isPlaying={isPlaying} className="h-12 w-12" />
           <div className="min-w-0">
             <p className="truncate text-sm font-medium text-zinc-100">{TITLE}</p>
-            <p className={`truncate text-xs ${muted ? "text-fuchsia-300" : "text-zinc-400"}`}>{subtitle}</p>
+            <p className={`truncate text-xs ${muted ? "text-accent-soft" : "text-zinc-400"}`}>{subtitle}</p>
           </div>
-          <button type="button" aria-label="Like" className="ml-1 shrink-0 text-zinc-500 transition-colors hover:text-fuchsia-400">
-            <Heart className="h-4 w-4" />
-          </button>
         </div>
 
         <div className="flex flex-1 flex-col items-center gap-1">
-          <div className="flex items-center gap-5">
-            <button type="button" aria-label="Shuffle" className="text-zinc-500 transition-colors hover:text-zinc-200">
-              <Shuffle className="h-4 w-4" />
-            </button>
-            <button type="button" aria-label="Restart" onClick={() => seek(0)} className="text-zinc-500 transition-colors hover:text-zinc-200">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label="Restart"
+              onClick={() => seek(0)}
+              className="rounded-full p-3 text-zinc-400 transition-colors hover:text-white"
+            >
               <SkipBack className="h-5 w-5" />
             </button>
             <PlayPauseBtn isPlaying={isPlaying} onClick={togglePlay} />
-            <button type="button" aria-label="Skip" onClick={() => seek(0)} className="text-zinc-500 transition-colors hover:text-zinc-200">
-              <SkipForward className="h-5 w-5" />
-            </button>
-            <button type="button" aria-label="Repeat (on)" className="text-fuchsia-400 transition-colors">
-              <Repeat className="h-4 w-4" />
-            </button>
           </div>
 
           <div className="flex w-full max-w-lg items-center gap-2">
-            <span className="w-8 text-right text-[10px] tabular-nums text-zinc-500">{formatTime(currentTime)}</span>
-            <div className="group relative h-1 flex-1 cursor-pointer" onClick={seekFromClick}>
-              <div className="absolute inset-0 rounded-full bg-zinc-700" />
-              <div className="absolute top-0 left-0 h-full rounded-full bg-white transition-colors group-hover:bg-fuchsia-400" style={{ width: `${progress * 100}%` }} />
-              <div className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-white opacity-0 shadow transition-opacity group-hover:opacity-100" style={{ left: `calc(${progress * 100}% - 6px)` }} />
-            </div>
-            <span className="w-8 text-[10px] tabular-nums text-zinc-500">{formatTime(duration)}</span>
+            <span className="w-9 text-right text-xs tabular-nums text-zinc-400">{formatTime(currentTime)}</span>
+            <SeekBar currentTime={currentTime} duration={duration} onSeek={seek} className="flex-1" />
+            <span className="w-9 text-xs tabular-nums text-zinc-400">{formatTime(duration)}</span>
           </div>
         </div>
 
         <div className="flex w-[28%] items-center justify-end gap-3">
-          <div className="hidden h-4 items-end gap-[2px] lg:flex">
+          <div className="hidden h-4 items-end gap-[2px] lg:flex" aria-hidden>
             {BAR_PARAMS.map((p, i) => (
               <motion.span
                 key={i}
-                className="w-[2px] rounded-full bg-fuchsia-400/70"
+                className="w-[2px] rounded-full bg-accent/70"
                 animate={isPlaying ? { scaleY: [0.2, p.peak, 0.2] } : { scaleY: 0.2 }}
                 transition={isPlaying ? { duration: p.duration, repeat: Infinity, delay: p.delay, ease: "easeInOut" } : { duration: 0.3 }}
                 style={{ originY: 1, height: "100%" }}
@@ -258,7 +274,7 @@ export default function NowPlayingBar() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <VolumeIcon className={`h-4 w-4 shrink-0 ${muted || volume === 0 ? "text-zinc-500" : "text-zinc-300"}`} />
+            <VolumeIcon className={`h-4 w-4 shrink-0 ${muted || volume === 0 ? "text-zinc-400" : "text-zinc-200"}`} aria-hidden />
             <input
               type="range"
               min={0}
@@ -267,7 +283,7 @@ export default function NowPlayingBar() {
               value={volume}
               onChange={(e) => setVolume(Number(e.target.value))}
               aria-label="Volume"
-              className="h-1 w-20 cursor-pointer accent-white hover:accent-fuchsia-400 lg:w-24"
+              className="h-6 w-24 cursor-pointer accent-white hover:accent-accent"
             />
           </div>
         </div>

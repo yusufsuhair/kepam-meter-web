@@ -1,7 +1,7 @@
 "use client";
 
-import { useMotionValueEvent, useSpring } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useMotionValueEvent, useReducedMotion, useSpring } from "framer-motion";
+import { useEffect, useId, useState } from "react";
 
 const R = 80;
 const CX = 100;
@@ -9,31 +9,44 @@ const CY = 100;
 const ARC = Math.PI * R;
 const ARC_PATH = `M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`;
 
-export default function KepamMeter({ score }: { score: number }) {
+export default function KepamMeter({ score, className = "" }: { score: number; className?: string }) {
+  // Two instances live in the DOM (phone hero row, desktop column); the gradient id must be unique.
+  const gradId = useId();
+  const reduced = useReducedMotion();
   const spring = useSpring(0, { stiffness: 80, damping: 14, mass: 0.8 });
   const [v, setV] = useState(0);
   useMotionValueEvent(spring, "change", setV);
   useEffect(() => {
-    spring.set(score);
-  }, [score, spring]);
+    // Reduced motion: land on the value instead of swinging to it.
+    if (reduced) spring.jump(score);
+    else spring.set(score);
+  }, [score, spring, reduced]);
 
   const label = score > 80 ? "MAXIMUM KEPAM" : score > 50 ? "getting kepam…" : "kepam level";
 
   return (
-    <div className="mx-auto w-full max-w-xs" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={score} aria-label="Kepam score">
-      <svg viewBox="0 0 200 108" className="w-full overflow-visible">
+    <div
+      className={`@container ${className}`}
+      role="meter"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={score}
+      aria-valuetext={`${score}%, ${label}`}
+      aria-label="Kepam score"
+    >
+      <svg viewBox="0 0 200 108" className="w-full overflow-visible" aria-hidden>
         <defs>
-          <linearGradient id="kepam-grad" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0%" stopColor="#34d399" />
-            <stop offset="50%" stopColor="#fbbf24" />
-            <stop offset="100%" stopColor="#ef4444" />
+          <linearGradient id={gradId} x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%" style={{ stopColor: "var(--color-gauge-low)" }} />
+            <stop offset="50%" style={{ stopColor: "var(--color-gauge-mid)" }} />
+            <stop offset="100%" style={{ stopColor: "var(--color-gauge-high)" }} />
           </linearGradient>
         </defs>
         <path d={ARC_PATH} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="14" strokeLinecap="round" />
         <path
           d={ARC_PATH}
           fill="none"
-          stroke="url(#kepam-grad)"
+          stroke={`url(#${gradId})`}
           strokeWidth="14"
           strokeLinecap="round"
           strokeDasharray={ARC}
@@ -45,8 +58,10 @@ export default function KepamMeter({ score }: { score: number }) {
         </g>
       </svg>
       <div className="-mt-2 flex flex-col items-center leading-none">
-        <span className="text-5xl font-black tabular-nums tracking-tight">{Math.round(v)}%</span>
-        <span className={`mt-1 text-xs uppercase tracking-[0.25em] ${score > 80 ? "animate-pulse text-red-400" : "text-white/60"}`}>
+        <span className="text-3xl font-black tabular-nums tracking-tight @min-[220px]:text-5xl">{Math.round(v)}%</span>
+        <span
+          className={`mt-1 text-xs uppercase tracking-[0.18em] @min-[220px]:tracking-[0.25em] ${score > 80 ? "text-hot motion-safe:animate-pulse" : "text-white/60"}`}
+        >
           {label}
         </span>
       </div>
