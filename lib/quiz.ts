@@ -1,3 +1,6 @@
+/** Past this score she gets angry: red lights, shaking, the angry model, spilled matcha. */
+export const ANGRY_AT = 40;
+
 export type Option = { label: string; weight: number };
 export type Question = { prompt: string; options: Option[] };
 /** Answer value for a skipped question: it is left out of the score entirely. */
@@ -17,6 +20,24 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
+    prompt: "Do you use the word “terpaling”?",
+    options: [
+      { label: "What is that?", weight: 0 },
+      { label: "Ironically, sometimes.", weight: 6 },
+      { label: "Daily. Terpaling daily.", weight: 14 },
+      { label: "It's my whole personality.", weight: 20 },
+    ],
+  },
+  {
+    prompt: "How often do you say “guys, you know what, I said what I said, periodt, literally, hello??”",
+    options: [
+      { label: "Never.", weight: 0 },
+      { label: "Once in a while, ironically.", weight: 6 },
+      { label: "Daily. Literally.", weight: 13 },
+      { label: "Every sentence. Hello?? Periodt.", weight: 20 },
+    ],
+  },
+  {
     prompt: "Do you use CAPS LOCK when arguing online?",
     options: [
       { label: "Never. I use full stops and walk away.", weight: 0 },
@@ -26,12 +47,12 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    prompt: "A stranger posts a bad take. What do you do?",
+    prompt: "Do you hate men?",
     options: [
-      { label: "Scroll past. Not my circus.", weight: 0 },
-      { label: "Reply with a calm counterpoint.", weight: 6 },
-      { label: "Quote it so my followers can see.", weight: 13 },
-      { label: "Tag the group chat: “korang, serang.”", weight: 20 },
+      { label: "No. I love everyone.", weight: 0 },
+      { label: "Only the ones in the comments.", weight: 6 },
+      { label: "Only online. In real life I'm very polite.", weight: 13 },
+      { label: "Yes, and I post about it daily. Periodt.", weight: 20 },
     ],
   },
   {
@@ -50,15 +71,6 @@ export const QUESTIONS: Question[] = [
       { label: "Read the thread quietly.", weight: 6 },
       { label: "Add a “yikes” comment.", weight: 13 },
       { label: "Dig up their 2014 tweets too.", weight: 20 },
-    ],
-  },
-  {
-    prompt: "Do you use the word “terpaling”?",
-    options: [
-      { label: "What is that?", weight: 0 },
-      { label: "Ironically, sometimes.", weight: 6 },
-      { label: "Daily. Terpaling daily.", weight: 14 },
-      { label: "It's my whole personality.", weight: 20 },
     ],
   },
   {
@@ -104,15 +116,6 @@ export const QUESTIONS: Question[] = [
       { label: "Laugh privately.", weight: 5 },
       { label: "Forward the link to two other group chats.", weight: 13 },
       { label: "Everyone comments at once. Macam biasa.", weight: 20 },
-    ],
-  },
-  {
-    prompt: "How often do you say “guys, you know what, I said what I said, periodt, literally, hello??”",
-    options: [
-      { label: "Never.", weight: 0 },
-      { label: "Once in a while, ironically.", weight: 6 },
-      { label: "Daily. Literally.", weight: 13 },
-      { label: "Every sentence. Hello?? Periodt.", weight: 20 },
     ],
   },
   {

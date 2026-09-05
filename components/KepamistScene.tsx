@@ -5,17 +5,26 @@ import { Center, Clone, ContactShadows, Float, useGLTF } from "@react-three/drei
 import { useReducedMotion } from "framer-motion";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Box3, Color, Group, MathUtils, type AmbientLight } from "three";
+import { ANGRY_AT } from "@/lib/quiz";
 
 const MODEL_URL = "/kepamist.glb";
+const ANGRY_URL = "/kepamist-marah.glb";
+const MATCHA_URL = "/matcha.glb";
 const DRACO_PATH = "/draco/";
 useGLTF.preload(MODEL_URL, DRACO_PATH);
+useGLTF.preload(ANGRY_URL, DRACO_PATH);
+useGLTF.preload(MATCHA_URL, DRACO_PATH);
 
 function cssColor(name: string, fallback: string) {
   return new Color(getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback);
 }
 
 function Kepamist({ score, still }: { score: number; still: boolean }) {
-  const { scene } = useGLTF(MODEL_URL, DRACO_PATH);
+  const calm = useGLTF(MODEL_URL, DRACO_PATH).scene;
+  const angry = useGLTF(ANGRY_URL, DRACO_PATH).scene;
+  const matcha = useGLTF(MATCHA_URL, DRACO_PATH).scene;
+  const isAngry = score > ANGRY_AT;
+  const scene = isAngry ? angry : calm;
   const group = useRef<Group>(null);
   const gl = useThree((s) => s.gl);
   // Portrait canvases (phone hero, desktop pane) get a bigger mascot: nothing overlays the canvas any more,
@@ -65,9 +74,9 @@ function Kepamist({ score, still }: { score: number; still: boolean }) {
   useFrame((state, dt) => {
     if (!group.current) return;
     const d = drag.current;
-    // Maximum Kepam jitters: a shake that only really kicks in past ~80% (off under reduced motion).
+    // Angry jitters: start shaking at the threshold and build up to 100% (off under reduced motion).
     const t = state.clock.elapsedTime;
-    const amp = still ? 0 : (score / 100) ** 6 * 0.05;
+    const amp = still || !isAngry ? 0 : 0.02 + ((score - ANGRY_AT) / (100 - ANGRY_AT)) * 0.04;
     group.current.position.set(Math.sin(t * 41) * amp, Math.sin(t * 53) * amp, 0);
     group.current.rotation.z = Math.sin(t * 47) * amp * 1.5;
     if (!d.active) {
@@ -88,10 +97,19 @@ function Kepamist({ score, still }: { score: number; still: boolean }) {
         <group ref={group}>
           <Center>
             {/* Clone shares geometry and materials, so the hero and the test screen can each show the mascot. */}
-            <Clone object={scene} />
+            <Clone key={score > ANGRY_AT ? "angry" : "calm"} object={scene} />
           </Center>
         </group>
       </Float>
+      {/* Maximum Kepam: the matcha hits the floor. The model is ~0.7 tall and centred, so lift it by half its height. */}
+      {isAngry && (
+        <Clone
+          object={matcha}
+          scale={0.3 * base}
+          position={[0.45 * base, feetY + 0.355 * 0.3 * base, 0.6]}
+          rotation-y={2.4}
+        />
+      )}
       {/* Baked once the model is in; the blob does not need to follow the float. */}
       <ContactShadows frames={1} position={[0, feetY, 0]} opacity={0.5} scale={5} blur={2.4} far={2} />
     </>
@@ -105,15 +123,15 @@ function StudioLights({ score }: { score: number }) {
   useFrame((_, dt) => {
     if (!ambient.current) return;
     // "Maximum Kepam": ambient goes blood red past 80%.
-    ambient.current.color.lerp(score > 80 ? hot : calm, 1 - Math.exp(-4 * dt));
+    ambient.current.color.lerp(score > ANGRY_AT ? hot : calm, 1 - Math.exp(-4 * dt));
   });
 
   return (
     <>
-      <ambientLight ref={ambient} intensity={score > 80 ? 1.6 : 0.7} color={calm} />
+      <ambientLight ref={ambient} intensity={score > ANGRY_AT ? 1.6 : 0.7} color={calm} />
       <directionalLight position={[3, 5, 4]} intensity={2.8} />
       <directionalLight position={[-4, 2, -2]} intensity={0.9} color="#8ec5ff" />
-      <pointLight position={[0, 1.5, -3]} intensity={score > 80 ? 40 : 12} color="#ff4d6d" />
+      <pointLight position={[0, 1.5, -3]} intensity={score > ANGRY_AT ? 40 : 12} color="#ff4d6d" />
     </>
   );
 }

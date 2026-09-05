@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import KepamMeter from "@/components/KepamMeter";
 import NowPlayingBar from "@/components/NowPlayingBar";
 import Quiz from "@/components/Quiz";
-import { QUESTIONS, scoreFor, type Answer } from "@/lib/quiz";
+import { ANGRY_AT, QUESTIONS, scoreFor, type Answer } from "@/lib/quiz";
 
 const KepamistScene = dynamic(() => import("@/components/KepamistScene"), {
   ssr: false,
@@ -51,7 +51,7 @@ export default function Home() {
         <div
           aria-hidden
           className="pointer-events-none fixed inset-0 -z-10 transition-opacity duration-1000"
-          style={{ background: MOOD.maxKepam, opacity: score > 80 ? 1 : 0 }}
+          style={{ background: MOOD.maxKepam, opacity: score > ANGRY_AT ? 1 : 0 }}
         />
         {/* Phone: hero copy, big mascot, CTA, then the test with a compact mascot beside the gauge.
             Desktop: the left column scrolls from hero copy to the test while one mascot pane stays put on the right. */}

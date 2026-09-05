@@ -2,6 +2,7 @@
 
 import { useMotionValueEvent, useReducedMotion, useSpring } from "framer-motion";
 import { useEffect, useId, useState } from "react";
+import { ANGRY_AT } from "@/lib/quiz";
 
 const R = 80;
 const CX = 100;
@@ -22,7 +23,7 @@ export default function KepamMeter({ score, className = "" }: { score: number; c
     else spring.set(score);
   }, [score, spring, reduced]);
 
-  const label = score > 80 ? "MAXIMUM KEPAM" : score > 50 ? "getting kepam…" : "kepam level";
+  const label = score > ANGRY_AT ? "MAXIMUM KEPAM" : score > ANGRY_AT / 2 ? "getting kepam…" : "kepam level";
 
   return (
     <div
@@ -60,7 +61,7 @@ export default function KepamMeter({ score, className = "" }: { score: number; c
       <div className="-mt-2 flex flex-col items-center leading-none">
         <span className="font-display text-3xl tabular-nums @min-[220px]:text-5xl">{Math.round(v)}%</span>
         <span
-          className={`mt-1 text-xs uppercase tracking-[0.18em] @min-[220px]:tracking-[0.25em] ${score > 80 ? "text-hot motion-safe:animate-pulse" : "text-white/60"}`}
+          className={`mt-1 text-xs uppercase tracking-[0.18em] @min-[220px]:tracking-[0.25em] ${score > ANGRY_AT ? "text-hot motion-safe:animate-pulse" : "text-white/60"}`}
         >
           {label}
         </span>
