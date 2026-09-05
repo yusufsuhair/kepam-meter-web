@@ -8,6 +8,15 @@ export type Answer = number | null;
 // so picking the last option on every question scores exactly 100%.
 export const QUESTIONS: Question[] = [
   {
+    prompt: "You're stressed. What do you do?",
+    options: [
+      { label: "Drink mineral water.", weight: 0 },
+      { label: "Buy a matcha.", weight: 7 },
+      { label: "Buy ayam gepuk.", weight: 13 },
+      { label: "Buy matcha AND gepuk. Terpaling stressed.", weight: 20 },
+    ],
+  },
+  {
     prompt: "Do you use CAPS LOCK when arguing online?",
     options: [
       { label: "Never. I use full stops and walk away.", weight: 0 },
@@ -98,12 +107,12 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    prompt: "How often do you check who viewed your story?",
+    prompt: "How often do you say “guys, you know what, I said what I said, periodt, literally, hello??”",
     options: [
-      { label: "Never. Stories are for posting, not stalking.", weight: 0 },
-      { label: "Once, casually.", weight: 6 },
-      { label: "Every hour. I have a mental list.", weight: 13 },
-      { label: "I have an actual spreadsheet.", weight: 20 },
+      { label: "Never.", weight: 0 },
+      { label: "Once in a while, ironically.", weight: 6 },
+      { label: "Daily. Literally.", weight: 13 },
+      { label: "Every sentence. Hello?? Periodt.", weight: 20 },
     ],
   },
   {
@@ -140,15 +149,6 @@ export const QUESTIONS: Question[] = [
       { label: "Like every comment.", weight: 5 },
       { label: "Reply “thank you sayang” to every single one.", weight: 13 },
       { label: "Repost all of them into a 47-slide story.", weight: 20 },
-    ],
-  },
-  {
-    prompt: "You're stressed. What do you do?",
-    options: [
-      { label: "Drink mineral water.", weight: 0 },
-      { label: "Buy a matcha.", weight: 7 },
-      { label: "Buy ayam gepuk.", weight: 13 },
-      { label: "Buy matcha AND gepuk. Terpaling stressed.", weight: 20 },
     ],
   },
 ];

@@ -9,7 +9,7 @@ test("16 questions, 4 options each, the last option is always the heaviest (20)"
     assert.equal(q.options[3].weight, 20);
     assert.equal(Math.max(...q.options.map((o) => o.weight)), 20);
   }
-  assert.equal(QUESTIONS.at(-1)?.prompt, "You're stressed. What do you do?");
+  assert.equal(QUESTIONS[0].prompt, "You're stressed. What do you do?");
 });
 
 test("no answers → 0, last option everywhere → 100", () => {
