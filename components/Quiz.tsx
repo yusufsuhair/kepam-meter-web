@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { diagnose, SKIP, type Answer, type Question } from "@/lib/quiz";
 
 type Props = {
@@ -31,8 +31,17 @@ export default function Quiz({ questions, answers, score, onAnswer, onReset }: P
   // Only move focus once the visitor has started; never steal it on page load.
   const touched = useRef(false);
   // Each question's options are shown in a random order, but scoring always uses the option's
-  // real index/weight. Generated once per mount/attempt in state (event-driven, not during render).
-  const [orders, setOrders] = useState(() => questions.map((qq) => shuffledIndices(qq.options.length)));
+  // real index/weight. The server (and the first client render, to match it) shows the fixed
+  // original order; an effect reshuffles once the client has mounted, so SSR/hydration output is
+  // deterministic and the randomization only ever happens post-hydration.
+  const [orders, setOrders] = useState(() => questions.map((qq) => qq.options.map((_, i) => i)));
+  useEffect(() => {
+    // Intentional post-hydration randomization, not derived state: SSR/first-render must stay
+    // deterministic to avoid a hydration mismatch, so the shuffle can only happen here, once,
+    // after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setOrders(questions.map((qq) => shuffledIndices(qq.options.length)));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- run once on mount only
   const order = orders[step] ?? q.options.map((_, i) => i);
   const focusHeading = (el: HTMLHeadingElement | null) => {
     if (touched.current) el?.focus({ preventScroll: true });
