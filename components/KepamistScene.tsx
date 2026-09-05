@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Center, Clone, ContactShadows, Float, useGLTF } from "@react-three/drei";
 import { useReducedMotion } from "framer-motion";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { Color, Group, MathUtils, type AmbientLight } from "three";
+import { Box3, Color, Group, MathUtils, type AmbientLight } from "three";
 
 const MODEL_URL = "/kepamist.glb";
 const DRACO_PATH = "/draco/";
@@ -18,9 +18,16 @@ function Kepamist({ score, still }: { score: number; still: boolean }) {
   const { scene } = useGLTF(MODEL_URL, DRACO_PATH);
   const group = useRef<Group>(null);
   const gl = useThree((s) => s.gl);
-  // Portrait canvases (phones) get a bigger mascot, shifted down so the feet stay on the shadow.
+  // Portrait canvases (phone hero, desktop pane) get a bigger mascot: nothing overlays the canvas any more,
+  // so the model is centred and fills most of the height. Score adds up to +0.1 on top.
   const aspect = useThree((s) => s.viewport.aspect);
-  const base = aspect < 0.8 ? 1.18 : aspect < 0.9 ? 1.12 : 1;
+  const base = aspect < 0.75 ? 1.4 : aspect < 0.8 ? 1.3 : aspect < 0.9 ? 1.12 : 1;
+  // Half the model's height (the Clone is centred at the origin), used to keep the shadow under the feet.
+  const half = useMemo(() => {
+    const box = new Box3().setFromObject(scene);
+    return (box.max.y - box.min.y) / 2;
+  }, [scene]);
+  const feetY = -half * (base + (score / 100) * 0.1) - 0.02;
   // Drag-to-rotate state: horizontal pointer drags spin the model; the fling decays back into auto-spin.
   const drag = useRef({ active: false, lastX: 0, fling: 0 });
 
@@ -65,20 +72,24 @@ function Kepamist({ score, still }: { score: number; still: boolean }) {
       group.current.rotation.y += (speed + d.fling) * dt;
       d.fling *= Math.exp(-3 * dt);
     }
-    const targetScale = base + (score / 100) * 0.12;
+    const targetScale = base + (score / 100) * 0.1;
     const s = MathUtils.damp(group.current.scale.x, targetScale, 3, dt);
     group.current.scale.setScalar(s);
   });
 
   return (
-    <Float speed={still ? 0 : 1.5} rotationIntensity={0.25} floatIntensity={0.6}>
-      <group ref={group} position={[0, -0.1 - (base - 1) * 0.7, 0]}>
-        <Center>
-          {/* Clone shares geometry and materials, so the hero and the test screen can each show the mascot. */}
-          <Clone object={scene} />
-        </Center>
-      </group>
-    </Float>
+    <>
+      <Float speed={still ? 0 : 1.5} rotationIntensity={0.25} floatIntensity={0.6}>
+        <group ref={group}>
+          <Center>
+            {/* Clone shares geometry and materials, so the hero and the test screen can each show the mascot. */}
+            <Clone object={scene} />
+          </Center>
+        </group>
+      </Float>
+      {/* Baked once the model is in; the blob does not need to follow the float. */}
+      <ContactShadows frames={1} position={[0, feetY, 0]} opacity={0.5} scale={5} blur={2.4} far={2} />
+    </>
   );
 }
 
@@ -127,8 +138,6 @@ export default function KepamistScene({ score }: { score: number }) {
         <StudioLights score={score} />
         <Suspense fallback={null}>
           <Kepamist score={score} still={still} />
-          {/* Baked once the model is in; the blob does not need to follow the float. */}
-          <ContactShadows frames={1} position={[0, -1.15, 0]} opacity={0.5} scale={5} blur={2.4} far={2} />
         </Suspense>
       </Canvas>
     </div>
