@@ -107,14 +107,14 @@ Maximum possible with every question answered: 320 points = 100%.
 | Add a more original insult. | 13 |
 | Copy-paste the popular one so I don't miss out. | 20 |
 
-### 11. Your friend's post gets 10k likes. Your first thought is…
+### 11. An influencer posts a harmless video of their new house or car. You…
 
 | Answer | Points |
 |---|---|
-| Happy for them! | 0 |
-| Nice, but mine was funnier. | 7 |
-| Screenshot to the group chat with 🙄 | 14 |
-| Post a story: “reminder that likes don't matter” | 20 |
+| Scroll past it. | 0 |
+| Think “good for them” and leave a like. | 7 |
+| Comment: “Alhamdulillah rezeki. Tapi jangan lupa bayar zakat ya.” | 14 |
+| Quote tweet: “Dalam dunia ni ada orang tengah kebulur, dia sibuk flex harta duniawi. Tone deaf much?” | 20 |
 
 ### 12. Your group chat spots a stranger's cringe post. First move?
 

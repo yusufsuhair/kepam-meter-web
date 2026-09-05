@@ -101,12 +101,12 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    prompt: "Your friend's post gets 10k likes. Your first thought is…",
+    prompt: "An influencer posts a harmless video of their new house or car. You…",
     options: [
-      { label: "Happy for them!", weight: 0 },
-      { label: "Nice, but mine was funnier.", weight: 7 },
-      { label: "Screenshot to the group chat with 🙄", weight: 14 },
-      { label: "Post a story: “reminder that likes don't matter”", weight: 20 },
+      { label: "Scroll past it.", weight: 0 },
+      { label: "Think “good for them” and leave a like.", weight: 7 },
+      { label: "Comment: “Alhamdulillah rezeki. Tapi jangan lupa bayar zakat ya.”", weight: 14 },
+      { label: "Quote tweet: “Dalam dunia ni ada orang tengah kebulur, dia sibuk flex harta duniawi. Tone deaf much?”", weight: 20 },
     ],
   },
   {
