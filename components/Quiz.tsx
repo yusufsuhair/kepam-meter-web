@@ -146,7 +146,7 @@ function Results({
           onClick={onReset}
           className="rounded-full border border-white/20 px-6 py-3 font-semibold transition hover:bg-white/10 active:scale-95"
         >
-          New questions
+          Try again
         </button>
       </div>
     </motion.div>
