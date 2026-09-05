@@ -40,6 +40,12 @@
   }
 }
 
+html {
+  /* No rubber-band past the page end: the bounce exposed the bare ink under the fixed bar on phones.
+     No background here: body's must propagate to the root canvas so the fixed mood layers stay visible. */
+  overscroll-behavior-y: none;
+}
+
 body {
   background: var(--color-ink);
   color: #fff;

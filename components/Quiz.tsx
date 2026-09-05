@@ -12,6 +12,7 @@ type Props = {
 };
 
 const glass = "rounded-3xl border border-white/15 bg-white/10 shadow-2xl shadow-black/30 backdrop-blur-xl";
+const primary = "rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:bg-white/90 active:scale-95";
 
 export default function Quiz({ answers, score, onAnswer, onReset }: Props) {
   const [step, setStep] = useState(0);
@@ -106,7 +107,9 @@ function Results({
   const d = diagnose(score);
   const text = `I scored ${score}% on the KepamMeter ${d.emoji} Diagnosis: ${d.title}. How kepam are you?`;
   const url = typeof window === "undefined" ? "" : window.location.href;
-  const share = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  const shareX = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  // Threads has no url param; the link rides in the text and unfurls into the OG card.
+  const shareThreads = `https://www.threads.com/intent/post?text=${encodeURIComponent(`${text} ${url}`)}`;
 
   return (
     <motion.div
@@ -125,13 +128,11 @@ function Results({
       </h2>
       <p className="mx-auto mt-4 max-w-md text-white/80">{d.blurb}</p>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-        <a
-          href={share}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:bg-white/90 active:scale-95"
-        >
+        <a href={shareX} target="_blank" rel="noopener noreferrer" className={primary}>
           Share to X
+        </a>
+        <a href={shareThreads} target="_blank" rel="noopener noreferrer" className={primary}>
+          Share to Threads
         </a>
         <button
           type="button"

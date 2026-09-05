@@ -57,7 +57,7 @@ export default function Home() {
           <div className="contents lg:block">
             {/* Screen 1: wordmark, tagline, one action. */}
             <section
-              className="order-1 flex flex-col gap-3 px-4 pt-8 sm:px-8 lg:min-h-[calc(100dvh-var(--bar-h))] lg:justify-center lg:gap-5 lg:py-16"
+              className="order-1 flex flex-col gap-3 px-4 pt-8 sm:px-8 lg:min-h-[calc(100svh-var(--bar-h))] lg:justify-center lg:gap-5 lg:py-16"
               aria-label="KepamMeter"
             >
               <h1 className="text-5xl font-black tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl">
@@ -76,7 +76,7 @@ export default function Home() {
             {/* Screen 2: the meter and the questionnaire. */}
             <section
               id="test"
-              className="order-4 flex min-h-[calc(100dvh-var(--bar-h))] scroll-mt-2 flex-col justify-center gap-4 px-4 py-10 sm:gap-6 sm:px-8"
+              className="order-4 flex min-h-[calc(100svh-var(--bar-h))] scroll-mt-2 flex-col justify-center gap-4 px-4 py-10 sm:gap-6 sm:px-8"
               aria-label="The test"
             >
               <div className="flex items-center gap-3 lg:block">
@@ -98,7 +98,7 @@ export default function Home() {
 
           {/* The mascot. Phone: fills the hero between the copy and the CTA. Desktop: sticky for both screens. */}
           <div
-            className="order-2 h-[calc(100dvh-var(--bar-h)-14.25rem)] min-h-80 overflow-hidden lg:sticky lg:top-0 lg:h-[calc(100dvh-var(--bar-h))]"
+            className="order-2 h-[calc(100svh-var(--bar-h)-14.25rem)] min-h-80 overflow-hidden lg:sticky lg:top-0 lg:h-[calc(100svh-var(--bar-h))]"
             aria-label="The Kepamist 3D model"
           >
             <KepamistScene score={score} />
