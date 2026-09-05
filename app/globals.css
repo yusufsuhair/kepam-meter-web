@@ -23,6 +23,12 @@
   --color-gauge-high: #ef4444;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 :root {
   /* Height of the fixed Now Playing bar (4px progress line + row). Page clearance derives from it. */
   --bar-h: 68px;

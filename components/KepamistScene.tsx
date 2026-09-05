@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Center, ContactShadows, Float, useGLTF } from "@react-three/drei";
+import { Center, Clone, ContactShadows, Float, useGLTF } from "@react-three/drei";
 import { useReducedMotion } from "framer-motion";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Color, Group, MathUtils, type AmbientLight } from "three";
@@ -19,8 +19,8 @@ function Kepamist({ score, still }: { score: number; still: boolean }) {
   const group = useRef<Group>(null);
   const gl = useThree((s) => s.gl);
   // Portrait canvases (phones) get a bigger mascot, shifted down so the feet stay on the shadow.
-  const portrait = useThree((s) => s.viewport.aspect < 0.9);
-  const base = portrait ? 1.12 : 1;
+  const aspect = useThree((s) => s.viewport.aspect);
+  const base = aspect < 0.8 ? 1.18 : aspect < 0.9 ? 1.12 : 1;
   // Drag-to-rotate state: horizontal pointer drags spin the model; the fling decays back into auto-spin.
   const drag = useRef({ active: false, lastX: 0, fling: 0 });
 
@@ -72,9 +72,10 @@ function Kepamist({ score, still }: { score: number; still: boolean }) {
 
   return (
     <Float speed={still ? 0 : 1.5} rotationIntensity={0.25} floatIntensity={0.6}>
-      <group ref={group} position={[0, -0.1 - (base - 1) * 1.05, 0]}>
+      <group ref={group} position={[0, -0.1 - (base - 1) * 0.7, 0]}>
         <Center>
-          <primitive object={scene} />
+          {/* Clone shares geometry and materials, so the hero and the test screen can each show the mascot. */}
+          <Clone object={scene} />
         </Center>
       </group>
     </Float>

@@ -173,11 +173,13 @@ A near-black void with a fuchsia accent, two calm corner glows, and a red takeov
 
 ## Layout
 
-One page, phone-first, two panes. The root is a `max-w-7xl` grid: a single column on phones, two equal columns from `lg` (1024px). Total height is `100dvh` minus the bar height (`--bar-h`: 68px, 78px from `md` 768px); the body carries matching bottom padding so nothing scrolls under the fixed bar.
+One page, two screens, phone-first. Screen 1 is the hero (wordmark, tagline, mascot, one action); screen 2 is the test (gauge and questionnaire), reached by the `#test` anchor with smooth scrolling under `prefers-reduced-motion: no-preference`. Each screen is at least `100dvh` minus the bar height (`--bar-h`: 68px, 78px from `md` 768px); the body carries matching bottom padding so nothing scrolls under the fixed bar. The root is a `max-w-7xl` container: a flex column on phones, two equal columns from `lg` (1024px).
 
-**Phone hero:** the mascot pane is `60dvh` (min 420px) with the wordmark and tagline absolutely positioned top-left (16px inset, 32px from `sm`) and a 132px gauge top-right (180px from `sm`). Both overlays are `pointer-events: none` so the mascot stays draggable underneath. The quiz column follows with 16px horizontal padding (32px from `sm`) and a 16px vertical gap (24px from `sm`).
+**Phone hero:** wordmark (48px, 60px from `sm`) and tagline in flow at the top with 16px inset (32px from `sm`), the mascot filling the remaining height (`100dvh` minus bar minus 14.25rem, min 320px), and the white "Take the test" pill with its one-line sub-label at the bottom. The mascot stays draggable.
 
-**Desktop:** the mascot pane becomes sticky at top 0 for the full viewport height; the right column vertically centres a 260px gauge (320px from `xl`) above the quiz card, and the phone gauge overlay is hidden.
+**Phone test screen:** a row of a compact mascot canvas (224px tall, 288px from `sm`, flexible width) beside a 46%-wide gauge (max 220px, 260px from `sm`), then the quiz card. 16px horizontal padding (32px from `sm`), 16px gaps (24px from `sm`).
+
+**Desktop:** the left column stacks the hero copy (72px to 96px wordmark, vertically centred) and the test screen (260px gauge above the card, vertically centred); the mascot pane on the right is sticky at top 0 for the full viewport height, so the same mascot serves both screens and there is only one WebGL context.
 
 **Spacing rhythm:** 10 / 12 / 16 / 24 / 32px. Options stack at 10px (12px from `sm`); card padding 16px (32px from `sm`); the bar row uses 12px gaps on phone, 16px on desktop; results actions sit 32px below the blurb.
 
