@@ -38,10 +38,11 @@ export default function Home() {
           className="pointer-events-none fixed inset-0 -z-10 transition-opacity duration-1000"
           style={{ background: MOOD.maxKepam, opacity: score > 80 ? 1 : 0 }}
         />
-        <div className="mx-auto grid min-h-[calc(100dvh-var(--bar-h))] max-w-7xl lg:grid-cols-2">
-          {/* The mascot owns the first phone screen; the wordmark and a compact gauge ride on top of it. */}
+        <div className="mx-auto grid min-h-[calc(100dvh-var(--bar-h))] max-w-7xl lg:grid-cols-2 lg:content-center">
+          {/* Phone: the mascot owns the first screen with the wordmark and a compact gauge on top of it.
+              Desktop: the row is as tall as the quiz column and the mascot pane stretches to match it. */}
           <section
-            className="relative h-[60dvh] min-h-[420px] min-w-0 overflow-hidden lg:sticky lg:top-0 lg:h-[calc(100dvh-var(--bar-h))]"
+            className="relative h-[60dvh] min-h-[420px] min-w-0 overflow-hidden lg:h-auto lg:min-h-0"
             aria-label="The Kepamist and your score"
           >
             <KepamistScene score={score} />
@@ -58,8 +59,8 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="flex min-w-0 flex-col gap-4 px-4 pb-6 pt-2 sm:gap-6 sm:px-8 md:pb-8 lg:justify-center lg:py-8">
-            <KepamMeter score={score} className="mx-auto hidden w-full max-w-[260px] lg:block xl:max-w-xs" />
+          <section className="flex min-w-0 flex-col gap-4 px-4 pb-6 pt-2 sm:gap-6 sm:px-8 md:pb-8 lg:justify-center lg:py-6">
+            <KepamMeter score={score} className="mx-auto hidden w-full max-w-[220px] lg:block 2xl:max-w-xs" />
             <Quiz
               answers={answers}
               score={score}
