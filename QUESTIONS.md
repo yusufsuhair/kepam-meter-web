@@ -44,14 +44,14 @@ Maximum possible with every question answered: 320 points = 100%.
 | Daily. Terpaling daily. | 14 |
 | It's my whole personality. | 20 |
 
-### 4. How often do you say “guys, you know what, I said what I said, periodt, literally, hello??”
+### 4. What is your favourite default reply when you are losing an argument?
 
 | Answer | Points |
 |---|---|
-| Never. | 0 |
-| Once in a while, ironically. | 6 |
-| Daily. Literally. | 13 |
-| Every sentence. Hello?? Periodt. | 20 |
+| I just stop replying. | 0 |
+| “Let's agree to disagree.” | 6 |
+| “Tiber.” / “Maksudnya??” | 14 |
+| “Sembang kencang, rupa takde.” (Proceeds to body-shame them.) | 20 |
 
 ### 5. Do you use CAPS LOCK when arguing online?
 

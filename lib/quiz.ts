@@ -38,12 +38,12 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    prompt: "How often do you say “guys, you know what, I said what I said, periodt, literally, hello??”",
+    prompt: "What is your favourite default reply when you are losing an argument?",
     options: [
-      { label: "Never.", weight: 0 },
-      { label: "Once in a while, ironically.", weight: 6 },
-      { label: "Daily. Literally.", weight: 13 },
-      { label: "Every sentence. Hello?? Periodt.", weight: 20 },
+      { label: "I just stop replying.", weight: 0 },
+      { label: "“Let's agree to disagree.”", weight: 6 },
+      { label: "“Tiber.” / “Maksudnya??”", weight: 14 },
+      { label: "“Sembang kencang, rupa takde.” (Proceeds to body-shame them.)", weight: 20 },
     ],
   },
   {
