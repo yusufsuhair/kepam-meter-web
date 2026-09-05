@@ -42,7 +42,8 @@ export default function Quiz({ questions, answers, score, onAnswer, onReset }: P
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setOrders(questions.map((qq) => shuffledIndices(qq.options.length)));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps -- run once on mount only
-  const order = orders[step] ?? q.options.map((_, i) => i);
+  // q is undefined once the quiz is done (step has run past the last question); order is unused then.
+  const order = orders[step] ?? q?.options.map((_, i) => i) ?? [];
   const focusHeading = (el: HTMLHeadingElement | null) => {
     if (touched.current) el?.focus({ preventScroll: true });
   };
