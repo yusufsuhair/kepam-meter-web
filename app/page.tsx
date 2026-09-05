@@ -29,8 +29,7 @@ const MOOD = {
 
 export default function Home() {
   const [answers, setAnswers] = useState<Answer[]>([]);
-  const scores = scoreFor(QUESTIONS, answers);
-  const score = scores.total;
+  const score = scoreFor(answers);
   // Below lg the test screen gets its own compact mascot; mounted only there so desktop keeps one WebGL context.
   const [phone, setPhone] = useState(false);
   useEffect(() => {
@@ -92,18 +91,18 @@ export default function Home() {
                     className="h-56 min-w-0 flex-1 overflow-hidden sm:h-72"
                     aria-hidden
                   >
-                    <KepamistScene score={score} gepuk={scores.gepuk} />
+                    <KepamistScene score={score} />
                   </div>
                 )}
                 <KepamMeter
-                  score={scores.total}
+                  score={score}
                   className="w-[46%] max-w-[220px] shrink-0 sm:max-w-[260px] lg:mx-auto lg:w-full"
                 />
               </div>
               <Quiz
                 questions={QUESTIONS}
                 answers={answers}
-                scores={scores}
+                score={score}
                 onAnswer={(q, o) =>
                   setAnswers((a) => {
                     const next = [...a];
@@ -121,7 +120,7 @@ export default function Home() {
             className="order-2 h-[calc(100svh-var(--bar-h)-14.25rem)] min-h-80 overflow-hidden lg:sticky lg:top-0 lg:h-[calc(100svh-var(--bar-h))]"
             aria-label="The Kepamist 3D model"
           >
-            <KepamistScene score={score} gepuk={scores.gepuk} />
+            <KepamistScene score={score} />
           </div>
 
           <div className="order-3 flex flex-col items-center gap-2 px-4 pt-3 pb-6 lg:hidden">

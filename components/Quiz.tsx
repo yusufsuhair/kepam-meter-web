@@ -2,12 +2,12 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
-import { diagnose, SKIP, type Answer, type Question, type Scores } from "@/lib/quiz";
+import { diagnose, SKIP, type Answer, type Question } from "@/lib/quiz";
 
 type Props = {
   questions: Question[];
   answers: Answer[];
-  scores: Scores;
+  score: number;
   onAnswer: (question: number, option: Answer) => void;
   onReset: () => void;
 };
@@ -15,7 +15,7 @@ type Props = {
 const glass = "rounded-3xl border border-white/15 bg-white/10 shadow-2xl shadow-black/30 backdrop-blur-xl";
 const primary = "rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:bg-white/90 active:scale-95";
 
-export default function Quiz({ questions, answers, scores, onAnswer, onReset }: Props) {
+export default function Quiz({ questions, answers, score, onAnswer, onReset }: Props) {
   const [step, setStep] = useState(0);
   const done = step >= questions.length;
   const q = questions[step];
@@ -40,7 +40,7 @@ export default function Quiz({ questions, answers, scores, onAnswer, onReset }: 
     <div className={`${glass} p-4 sm:p-8`}>
       <AnimatePresence mode="wait">
         {done ? (
-          <Results key="results" scores={scores} onReset={reset} headingRef={focusHeading} />
+          <Results key="results" score={score} onReset={reset} headingRef={focusHeading} />
         ) : (
           <motion.div
             key={step}
@@ -103,16 +103,16 @@ export default function Quiz({ questions, answers, scores, onAnswer, onReset }: 
 }
 
 function Results({
-  scores,
+  score,
   onReset,
   headingRef,
 }: {
-  scores: Scores;
+  score: number;
   onReset: () => void;
   headingRef: (el: HTMLHeadingElement | null) => void;
 }) {
-  const d = diagnose(scores);
-  const text = `I scored ${scores.total}% on the KepamMeter ${d.emoji} Diagnosis: ${d.title}. How kepam are you?`;
+  const d = diagnose(score);
+  const text = `I scored ${score}% on the KepamMeter ${d.emoji} Diagnosis: ${d.title}. How kepam are you?`;
   const url = typeof window === "undefined" ? "" : window.location.href;
   const shareX = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
   // Threads has no url param; the link rides in the text and unfurls into the OG card.

@@ -1,19 +1,13 @@
-export type Axis = "kepam" | "gepuk";
 export type Option = { label: string; weight: number };
-export type Question = { prompt: string; axis: Axis; options: Option[] };
-/** total drives the meter; kepam/gepuk are per-axis sub-scores used only for the diagnosis and mascot. */
-export type Scores = { total: number; kepam: number; gepuk: number };
+export type Question = { prompt: string; options: Option[] };
 /** Answer value for a skipped question: it is left out of the score entirely. */
 export const SKIP = -1;
 export type Answer = number | null;
 
-// Kepam = cringe, attention-seeking netizen energy. Gepuk = pile-on, mob, "korang serang" energy.
-// The axis tag is internal: it only flavours the diagnosis and the mascot shake.
-// Fixed order, kepam and gepuk alternating.
-// Every question's heaviest option is 20.
+// Fixed order. Every question's heaviest option is the last one and weighs 20,
+// so picking the last option on every question scores exactly 100%.
 export const QUESTIONS: Question[] = [
   {
-    axis: "kepam",
     prompt: "Do you use CAPS LOCK when arguing online?",
     options: [
       { label: "Never. I use full stops and walk away.", weight: 0 },
@@ -23,7 +17,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "gepuk",
     prompt: "A stranger posts a bad take. What do you do?",
     options: [
       { label: "Scroll past. Not my circus.", weight: 0 },
@@ -33,7 +26,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "kepam",
     prompt: "How fast do you reply to viral drama?",
     options: [
       { label: "I don't follow drama.", weight: 0 },
@@ -43,7 +35,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "gepuk",
     prompt: "Someone gets cancelled for a tweet from 2016. You…",
     options: [
       { label: "Don't care. It's 2016.", weight: 0 },
@@ -53,7 +44,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "kepam",
     prompt: "Do you use the word “terpaling”?",
     options: [
       { label: "What is that?", weight: 0 },
@@ -63,7 +53,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "gepuk",
     prompt: "A restaurant gets one bad review. You…",
     options: [
       { label: "Take it as one opinion.", weight: 0 },
@@ -73,7 +62,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "kepam",
     prompt: "Someone posts a photo of their nasi lemak. You…",
     options: [
       { label: "Double tap and move on.", weight: 0 },
@@ -83,7 +71,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "gepuk",
     prompt: "The comment section is already 500 copies of the same insult. You…",
     options: [
       { label: "Close the app.", weight: 0 },
@@ -93,7 +80,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "kepam",
     prompt: "Your friend's post gets 10k likes. Your first thought is…",
     options: [
       { label: "Happy for them!", weight: 0 },
@@ -103,7 +89,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "gepuk",
     prompt: "Your group chat spots a stranger's cringe post. First move?",
     options: [
       { label: "Leave it alone.", weight: 0 },
@@ -113,7 +98,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "kepam",
     prompt: "How often do you check who viewed your story?",
     options: [
       { label: "Never. Stories are for posting, not stalking.", weight: 0 },
@@ -123,7 +107,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "gepuk",
     prompt: "Someone apologises online. You…",
     options: [
       { label: "Accept it and move on.", weight: 0 },
@@ -133,7 +116,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "kepam",
     prompt: "Your go-to caption style?",
     options: [
       { label: "No caption. The photo speaks.", weight: 0 },
@@ -143,7 +125,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "gepuk",
     prompt: "The report button. How often?",
     options: [
       { label: "Only for real harm.", weight: 0 },
@@ -153,7 +134,6 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    axis: "kepam",
     prompt: "People wish you happy birthday on your wall. You…",
     options: [
       { label: "Say thanks once, to everyone.", weight: 0 },
@@ -162,59 +142,51 @@ export const QUESTIONS: Question[] = [
       { label: "Repost all of them into a 47-slide story.", weight: 20 },
     ],
   },
+  {
+    prompt: "You're stressed. What do you do?",
+    options: [
+      { label: "Drink mineral water.", weight: 0 },
+      { label: "Buy a matcha.", weight: 7 },
+      { label: "Buy ayam gepuk.", weight: 13 },
+      { label: "Buy matcha AND gepuk. Terpaling stressed.", weight: 20 },
+    ],
+  },
 ];
 
-/** answers[i] is the chosen option index for questions[i], null if unanswered, SKIP if skipped. */
-export function scoreFor(questions: Question[], answers: Answer[]): Scores {
-  const score = (axis?: Axis) => {
-    let total = 0;
-    let max = 0;
-    questions.forEach((q, i) => {
-      const a = answers[i];
-      if ((axis && q.axis !== axis) || a === SKIP) return;
-      max += Math.max(...q.options.map((o) => o.weight));
-      if (a !== null && a !== undefined) total += q.options[a].weight;
-    });
-    return max ? Math.round((total / max) * 100) : 0;
-  };
-  return { total: score(), kepam: score("kepam"), gepuk: score("gepuk") };
+/** answers[i] is the chosen option index for QUESTIONS[i], null if unanswered, SKIP if skipped. */
+export function scoreFor(answers: Answer[]): number {
+  let total = 0;
+  let max = 0;
+  QUESTIONS.forEach((q, i) => {
+    const a = answers[i];
+    if (a === SKIP) return;
+    max += Math.max(...q.options.map((o) => o.weight));
+    if (a !== null && a !== undefined) total += q.options[a].weight;
+  });
+  return max ? Math.round((total / max) * 100) : 0;
 }
 
 export type Diagnosis = { title: string; emoji: string; blurb: string };
 
-export function diagnose({ total, gepuk }: Scores): Diagnosis {
-  if (total > 70 && gepuk > 70)
-    return {
-      title: "Gepuk Kepamist",
-      emoji: "💀",
-      blurb:
-        "Terpaling kepam AND terpaling gepuk. You start the drama, then rally the mob to finish it. Comment sections fear you. So does your data plan.",
-    };
-  if (total > 70)
-    return {
-      title: "Certified Kepamist",
-      emoji: "🔥",
-      blurb:
-        "Terpaling kepam. You are the reason comment sections have a character limit. Wear this badge with pride, or shame. Both work.",
-    };
-  if (gepuk > 70)
-    return {
-      title: "Gepuk Squad",
-      emoji: "🥊",
-      blurb:
-        "You never start the fight, but you always arrive with 40 friends to finish it. “Korang, serang” is muscle memory at this point.",
-    };
-  if (total <= 30)
+export function diagnose(score: number): Diagnosis {
+  if (score <= 30)
     return {
       title: "Pure Soul",
       emoji: "😇",
       blurb:
         "You log on, you like your friends' photos, you log off. The internet does not deserve you. Protect this energy.",
     };
+  if (score <= 70)
+    return {
+      title: "Average Netizen",
+      emoji: "😌",
+      blurb:
+        "You have opinions and occasionally you share them. Mild kepam detected, but you still know when to close the app. Probably.",
+    };
   return {
-    title: "Average Netizen",
-    emoji: "😌",
+    title: "Certified Kepamist",
+    emoji: "🔥",
     blurb:
-      "You have opinions and occasionally you share them. Mild kepam detected, light gepuk tendencies, but you still know when to close the app. Probably.",
+      "Terpaling kepam. Matcha in one hand, gepuk in the other, caps lock on. You are the reason comment sections have a character limit. Wear this badge with pride, or shame. Both work.",
   };
 }
